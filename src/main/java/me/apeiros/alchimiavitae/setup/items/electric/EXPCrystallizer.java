@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import me.apeiros.alchimiavitae.util.CustomItemStack;
 
 import me.apeiros.alchimiavitae.setup.AlchimiaItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -18,9 +19,9 @@ public class EXPCrystallizer extends AContainer implements RecipeDisplayItem {
 
     public EXPCrystallizer(ItemGroup ig) {
         super(ig, AlchimiaItems.EXP_CRYSTALLIZER, RecipeType.ANCIENT_ALTAR, new ItemStack[]{
-                SlimefunItems.TALISMAN_WISE, SlimefunItems.MAGICAL_GLASS, SlimefunItems.TALISMAN_WISE,
-                SlimefunItems.HARDENED_GLASS, SlimefunItems.EXP_COLLECTOR, SlimefunItems.HARDENED_GLASS,
-                SlimefunItems.HEATING_COIL, SlimefunItems.ANCIENT_ALTAR, SlimefunItems.HEATING_COIL
+                SlimefunItems.TALISMAN_WISE.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.TALISMAN_WISE.item(),
+                SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.EXP_COLLECTOR.item(), SlimefunItems.HARDENED_GLASS.item(),
+                SlimefunItems.HEATING_COIL.item(), SlimefunItems.ANCIENT_ALTAR.item(), SlimefunItems.HEATING_COIL.item()
         });
 
         this.setProcessingSpeed(1).setCapacity(64).setEnergyConsumption(16);
@@ -30,12 +31,12 @@ public class EXPCrystallizer extends AContainer implements RecipeDisplayItem {
     public void registerDefaultRecipes() {
         this.registerRecipe(10,
             new ItemStack[] {
-                new SlimefunItemStack(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, 2)
+                new CustomItemStack(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, 2)
             },
 
             new ItemStack[] {
-                new SlimefunItemStack(AlchimiaItems.EXP_CRYSTAL, 1),
-                new SlimefunItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 2)
+                new SlimefunItemStack(AlchimiaItems.EXP_CRYSTAL, 1).item(),
+                new CustomItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 2)
             }
         );
     }

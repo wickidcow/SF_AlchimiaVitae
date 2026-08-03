@@ -12,10 +12,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-
 import me.apeiros.alchimiavitae.AlchimiaVitae;
 import me.apeiros.alchimiavitae.setup.items.crafters.AltarOfInfusion.Infusion;
+import me.apeiros.alchimiavitae.util.CustomItemStack;
 
 /**
  * {@link Listener} for Auto-Replant (hoe) infusion
@@ -62,8 +61,8 @@ public class HoeListener implements Listener {
 
         // Check if the tool has fortune
         boolean isWheat = e.getBlock().getType() == Material.WHEAT;
-        boolean hasFortune = item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS);
-        int amountToDrop = hasFortune ? item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 2 : 2;
+        boolean hasFortune = item.containsEnchantment(Enchantment.FORTUNE);
+        int amountToDrop = hasFortune ? item.getEnchantmentLevel(Enchantment.FORTUNE) * 2 : 2;
 
         // Drop items
         for (ItemStack i : e.getBlock().getDrops(item, p)) {
@@ -77,7 +76,7 @@ public class HoeListener implements Listener {
             w.dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(new ItemStack(Material.WHEAT_SEEDS), 2));
 
         // Effects
-        Particle particleToSpawn = e.getBlock().getType() == Material.NETHER_WART ? Particle.CRIMSON_SPORE : Particle.VILLAGER_HAPPY;
+        Particle particleToSpawn = e.getBlock().getType() == Material.NETHER_WART ? Particle.CRIMSON_SPORE : Particle.HAPPY_VILLAGER;
         w.spawnParticle(particleToSpawn, e.getBlock().getLocation(), 50, 1, 1, 1);
     }
     // }}}

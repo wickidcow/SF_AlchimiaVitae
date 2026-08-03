@@ -1,3 +1,4 @@
+# Build and IDE outputs
 /bin/
 /.settings/
 /target/
@@ -9,3 +10,9 @@
 .factorypath
 dependency-reduced-pom.xml
 .DS_Store
+
+# Gradle
+.gradle/
+build/
+run/
+out/

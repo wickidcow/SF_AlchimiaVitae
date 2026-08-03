@@ -25,8 +25,8 @@ abstract class AbstractListenerPotion extends SlimefunItem implements Listener {
         AlchimiaVitae instance = AlchimiaVitae.i();
         instance.getServer().getPluginManager().registerEvents(this, instance);
 
-		// Add recipe to Cosmic Cauldron
-		cauldron.newRecipe(item, recipe);
+        // Add recipe to Cosmic Cauldron
+        cauldron.newRecipe(item, recipe);
     }
 
     // Check if an item is similar to this item

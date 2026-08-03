@@ -19,9 +19,9 @@ public class MoltenMysteryMetal extends SimpleSlimefunItem<ItemUseHandler> imple
 
     public MoltenMysteryMetal(ItemGroup ig, DivineAltar divineAltar) {
         super(ig, AlchimiaItems.MOLTEN_MYSTERY_METAL, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[] {
-                AlchimiaItems.EXP_CRYSTAL, AlchimiaItems.ILLUMIUM, AlchimiaItems.EXP_CRYSTAL,
-                AlchimiaItems.DARKSTEEL, new ItemStack(Material.LAVA_BUCKET), AlchimiaItems.DARKSTEEL,
-                AlchimiaItems.EXP_CRYSTAL, AlchimiaItems.ILLUMIUM, AlchimiaItems.EXP_CRYSTAL
+                AlchimiaItems.EXP_CRYSTAL.item(), AlchimiaItems.ILLUMIUM.item(), AlchimiaItems.EXP_CRYSTAL.item(),
+                AlchimiaItems.DARKSTEEL.item(), new ItemStack(Material.LAVA_BUCKET), AlchimiaItems.DARKSTEEL.item(),
+                AlchimiaItems.EXP_CRYSTAL.item(), AlchimiaItems.ILLUMIUM.item(), AlchimiaItems.EXP_CRYSTAL.item()
         });
 
         // Add recipe to Divine Altar

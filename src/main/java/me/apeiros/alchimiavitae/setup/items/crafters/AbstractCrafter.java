@@ -2,6 +2,7 @@ package me.apeiros.alchimiavitae.setup.items.crafters;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -16,17 +17,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.mooy1.infinitylib.machines.CraftingBlock;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.apeiros.alchimiavitae.util.CustomItemStack;
 
 import me.apeiros.alchimiavitae.AlchimiaUtils;
 import me.apeiros.alchimiavitae.AlchimiaVitae;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -34,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
  * Shared superclass which {@link AlchimiaVitae}'s
  * custom crafters inherit from
  */
-abstract class AbstractCrafter<T> extends CraftingBlock {
+abstract class AbstractCrafter<T> extends SlimefunItem {
 
     public AbstractCrafter(ItemGroup ig, SlimefunItemStack item, RecipeType rt, ItemStack[] recipe) {
         super(ig, item, rt, recipe);
@@ -111,17 +116,15 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
 
         // Modify the ID for double registration
         String id = "AV_" + stack.getItemId();
-        stack = new SlimefunItemStack(id, stack);
-        stack = new SlimefunItemStack(stack, 1);
+        SlimefunItemStack registeredStack = new SlimefunItemStack(id, stack.item());
+        registeredStack = new SlimefunItemStack(registeredStack, 1);
 
         // Register item
-        new SlimefunItem(ig, stack, rt, input, new SlimefunItemStack(stack, amount)).register(AlchimiaVitae.i());
+        new SlimefunItem(ig, registeredStack, rt, input, new CustomItemStack(registeredStack, amount)).register(AlchimiaVitae.i());
     }
     // }}}
 
-    // {{{ Overriding CraftingBlock methods
     // {{{ Block setup
-    @Override
     protected void setup(@Nonnull BlockMenuPreset preset) {
         // Input background
         for (int slot : IN_BG_SLOTS) {
@@ -151,7 +154,6 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
     // }}}
 
     // {{{ Called after a BlockMenu is created from BlockMenuPreset
-    @Override
     protected void onNewInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
         // Effects
         this.newInstanceEffects(b.getWorld(), b.getLocation().add(0.5, 0.5, 0.5));
@@ -168,7 +170,6 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
     // }}}
 
     // {{{ Called when the block is broken
-    @Override
     protected void onBreak(@Nonnull BlockBreakEvent e, @Nonnull BlockMenu menu) {
         Location l = menu.getLocation().add(0.5, 0.5, 0.5);
 
@@ -182,7 +183,6 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
     // }}}
 
     // {{{ Craft
-    @Override
     protected void craft(@Nonnull Block b, @Nonnull BlockMenu menu, @Nonnull Player p) {
         // Get expected output
         ItemStack[] input = new ItemStack[9];
@@ -213,6 +213,41 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
     }
     // }}}
 
+    @Override
+    public void preRegister() {
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                BlockMenu menu = BlockStorage.getInventory(e.getBlock());
+                if (menu != null) {
+                    onBreak(e, menu);
+                }
+            }
+        });
+
+        new BlockMenuPreset(getId(), getItemName()) {
+            @Override
+            public void init() {
+                setup(this);
+            }
+
+            @Override
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                onNewInstance(menu, b);
+            }
+
+            @Override
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
+                return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return flow == ItemTransportFlow.INSERT ? IN_SLOTS : OUT_SLOTS;
+            }
+        };
+    }
+
     // {{{ Register
     @Override
     public void register(SlimefunAddon instance) {
@@ -221,7 +256,6 @@ abstract class AbstractCrafter<T> extends CraftingBlock {
         // Add default recipes
         this.addDefaultRecipes();
     }
-    // }}}
     // }}}
 
 }

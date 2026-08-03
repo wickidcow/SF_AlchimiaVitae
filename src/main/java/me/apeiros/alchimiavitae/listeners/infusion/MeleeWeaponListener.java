@@ -69,6 +69,7 @@ public class MeleeWeaponListener implements Listener {
             // Damage armor
             if (victim instanceof Player victimPlayer) {
                 for (ItemStack armor : victimPlayer.getInventory().getArmorContents()) {
+                    if (armor == null) continue;
                     // Make sure the worn item is damageable
                     if (!(armor.getItemMeta() instanceof Damageable))
                         continue;
@@ -77,6 +78,7 @@ public class MeleeWeaponListener implements Listener {
 
                     // 1-5 damage
                     d.setDamage(d.getDamage() + rand.nextInt(1, 6));
+                    armor.setItemMeta(d);
                 }
             }
 
@@ -86,9 +88,9 @@ public class MeleeWeaponListener implements Listener {
 
             // 1/4 chance to add slowness
             if (rand.nextInt(4) == 0) {
-                victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 15, 1));
+                victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 15, 1));
 
-                w.spawnParticle(Particle.BLOCK_CRACK, l, 100, Material.STONE.createBlockData());
+                w.spawnParticle(Particle.BLOCK, l, 100, 0.5, 0.5, 0.5, Material.STONE.createBlockData());
                 w.playSound(l, Sound.BLOCK_STONE_BREAK, 1, 1);
             }
 
@@ -96,15 +98,15 @@ public class MeleeWeaponListener implements Listener {
             if (rand.nextInt(4) == 0) {
                 victim.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 10, 1));
 
-                w.spawnParticle(Particle.BLOCK_CRACK, l, 100, Material.DEEPSLATE.createBlockData());
+                w.spawnParticle(Particle.BLOCK, l, 100, 0.5, 0.5, 0.5, Material.DEEPSLATE.createBlockData());
                 w.playSound(l, Sound.BLOCK_DEEPSLATE_BREAK, 1, 1);
             }
 
             // 1/8 Chance to add brief mining fatigue
             if (rand.nextInt(8) == 0) {
-                victim.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 3));
+                victim.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 5, 3));
 
-                w.spawnParticle(Particle.BLOCK_CRACK, l, 100, Material.REDSTONE_BLOCK.createBlockData());
+                w.spawnParticle(Particle.BLOCK, l, 100, 0.5, 0.5, 0.5, Material.REDSTONE_BLOCK.createBlockData());
                 w.playSound(l, Sound.BLOCK_METAL_BREAK, 1, 1);
             }
         }
@@ -118,7 +120,7 @@ public class MeleeWeaponListener implements Listener {
 
             // Reduce victim's health
             if (rand.nextInt(4) == 0) {
-                victim.setHealth(victim.getHealth() - Math.pow(e.getFinalDamage(), 1.15) * 5 / 8);
+                victim.setHealth(Math.max(0, victim.getHealth() - Math.pow(e.getFinalDamage(), 1.15) * 5 / 8));
 
                 // Effect
                 victim.getWorld().playSound(victim.getLocation(), Sound.ENTITY_PHANTOM_BITE, 0.7F, 1);

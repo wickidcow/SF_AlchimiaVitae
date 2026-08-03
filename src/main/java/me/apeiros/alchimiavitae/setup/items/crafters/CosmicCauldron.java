@@ -24,9 +24,9 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
 
     public CosmicCauldron(ItemGroup ig, DivineAltar divineAltar) {
         super(ig, AlchimiaItems.COSMIC_CAULDRON, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[]{
-                AlchimiaItems.EXP_CRYSTAL, SlimefunItems.AUTO_BREWER, AlchimiaItems.EXP_CRYSTAL,
-                AlchimiaItems.DARKSTEEL, AlchimiaItems.DIVINE_ALTAR, AlchimiaItems.ILLUMIUM,
-                SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.FLUID_PUMP, SlimefunItems.BLISTERING_INGOT_3
+                AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.AUTO_BREWER.item(), AlchimiaItems.EXP_CRYSTAL.item(),
+                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.DIVINE_ALTAR.item(), AlchimiaItems.ILLUMIUM.item(),
+                SlimefunItems.BLISTERING_INGOT_3.item(), SlimefunItems.FLUID_PUMP.item(), SlimefunItems.BLISTERING_INGOT_3.item()
         });
 
         // Add recipe to Divine Altar
@@ -37,7 +37,7 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
     @Override
     protected void newInstanceEffects(World w, Location l) {
         // Play effects
-        w.spawnParticle(Particle.TOTEM, l, 100, 3, 3, 3);
+        w.spawnParticle(Particle.TOTEM_OF_UNDYING, l, 100, 3, 3, 3);
         w.playSound(l, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
     }
     // }}}
@@ -59,7 +59,7 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
                 if (layer == 4) {
                     // Pre-craft
                     w.playSound(l, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
-                    w.spawnParticle(Particle.SPELL_WITCH, l, 2, 1, 1, 1);
+                    w.spawnParticle(Particle.WITCH, l, 2, 1, 1, 1);
 
                     // Decrease layer
                     layer--;
@@ -67,13 +67,13 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
                     // Pre-craft
                     w.playSound(l, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
                     w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1, 1);
-                    w.spawnParticle(Particle.CRIT_MAGIC, l, 200, 1, 1, 1);
+                    w.spawnParticle(Particle.ENCHANTED_HIT, l, 200, 1, 1, 1);
 
                     // Decrease layer
                     layer--;
                 } else {
                     // Output the item
-                    ItemStack newItem = item.clone();
+                    ItemStack newItem = item.item().clone();
 
                     if (menu.fits(newItem, OUT_SLOTS)) {
                         menu.pushItem(newItem, OUT_SLOTS);

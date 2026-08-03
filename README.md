@@ -1,33 +1,56 @@
-# Alchimia Vitae
-Slimefun addon that adds some alchemy, herbalism and other mechanics to the game  
-(My entry to the [2021 Slimefun Addon Jam](https://github.com/Slimefun/Slimefun4/wiki/Addon-Jam-2021))
+# Alchimia Vitae (1.21.4 Update)
 
-**Requires Slimefun RC-28 or above, Minecraft 1.17 or above, and Java 16 or above!**
+![Minecraft](https://img.shields.io/badge/Minecraft-1.21.4-brightgreen.svg)
+![Java](https://img.shields.io/badge/Java-21-orange.svg)
+![Slimefun](https://img.shields.io/badge/Slimefun4-RC--37+-blue.svg)
 
-Click below to download
+Slimefun addon that adds alchemy, herbalism, magic plants, divine crafting, and custom infusions to Minecraft.  
+Originally created by **[Apeiros-46B](https://github.com/Apeiros-46B)** for the 2021 Slimefun Addon Jam, modernized and updated for **Minecraft 1.21.4 (Paper/Purpur)** and **Java 21**.
 
-[![Build status](https://thebusybiscuit.github.io/builds/Apeiros-46B/AlchimiaVitae/master/badge.svg)](https://thebusybiscuit.github.io/builds/Apeiros-46B/AlchimiaVitae/master/)
+---
 
-## Features
-Check the Slimefun guide for more information
+## 🌟 Original Author & Credits
+- **Original Creator:** [Apeiros-46B](https://github.com/Apeiros-46B)
+- **Original Repository:** [Apeiros-46B/AlchimiaVitae](https://github.com/Apeiros-46B/AlchimiaVitae)
+- All original game mechanics, lore, and textures are credited to the original author. This fork maintains compatibility with modern Minecraft / Paper / Slimefun 4.
 
-### Tools and Resources
-- Soul Collector
-  - Drops more experience from mobs
-  - Has a chance to drop a Condensed Soul, a crafting ingredient, when killing a mob
-- Plants of Dark and Light Magic
-  - Used as a crafting ingredient for potions and other resources
-  - Created by infusing saplings with either Condensed Souls or Magical Lumps
+---
 
-### Crafters
-- Divine Altar
-  - Used for crafting of advanced items
-  - Used for transmuting items into other products, allowing slightly easier but not automatable crafting of materials such as Reinforced Alloy Ingots
-- Ornate Cauldron
-  - Used to create powerful potions
-    - Benevolent Brew, a strong beneficial potion
-    - Malevolent Concoction, a strong harmful splash potion
-    - Potion of Osmosis, a potion that absorbs your current effects when you drink it
-- Altar of Infusion
-  - Allows you to infuse tools and weapons with powerful effects called infusions
-  - Infusions are not compatible with each other, you must choose wisely
+## 📋 Requirements
+- **Server:** Paper / Purpur 1.21.4 (or forks)
+- **Java:** Java 21+
+- **Dependencies:**
+  - [Slimefun4](https://github.com/Slimefun/Slimefun4) (RC-37+ / 1.21.4 compatible build)
+
+---
+
+## 🔮 Features
+
+### ⚔️ Tools & Resources
+- **Soul Collector:** Increases experience dropped by mobs and grants a chance to obtain *Condensed Souls* when slaying mobs.
+- **Magic Plants (Light & Dark):** Created by infusing saplings in the *Plant Infusion Chamber*. Used to craft essential essences and potions.
+- **EXP Crystallizer & EXP Crystals:** Store and distill raw knowledge and experience into pure crystalline energy.
+- **Alchemical Metals:** Ingot metals such as *Illumium*, *Darksteel*, and *Mystery Metal*.
+
+### 🏺 Crafters & Altars
+- **Divine Altar:** Advanced transmutation altar used to craft complex materials like *Molten Mystery Metal*.
+- **Cosmic Cauldron:** Advanced cauldron for brewing specialized concoctions:
+  - **Benevolent Brew:** Bestows powerful protective absorption shields.
+  - **Malevolent Concoction:** High-potency offensive splash potion.
+  - **Potion of Osmosis:** Absorbs active potion effects and distills them into a reusable *Coruscating Potion*.
+- **Altar of Infusion:** Infuses weapons and tools with exclusive custom enchantments and abilities.
+
+---
+
+## 🛠️ Building & Running Locally
+
+### Compile with Gradle
+```bash
+./gradlew build
+```
+The compiled jar will be in `build/libs/AlchimiaVitae-1.21.4-all.jar`.
+
+### Run Test Server (Paper 1.21.4)
+```bash
+./gradlew runServer
+```
