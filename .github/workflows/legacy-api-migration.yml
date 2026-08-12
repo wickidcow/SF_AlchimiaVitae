@@ -1,0 +1,63 @@
+name: One-time Slimefun Legacy API migration
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore classic Slimefun ItemStack API usage
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          changed = 0
+          for path in Path('src/main/java').rglob('*.java'):
+              text = path.read_text(encoding='utf-8')
+              updated = text.replace('.item()', '')
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed += 1
+
+          gradle = Path('build.gradle.kts')
+          text = gradle.read_text(encoding='utf-8')
+          text = text.replace('version = "1.0.0"', 'version = "1.0.1"')
+          text = text.replace(
+              'compileOnly("maven.modrinth:slimefuncore:PEuZoZh4")',
+              'compileOnly("com.github.SlimefunGuguProject:Slimefun4:2025.1")'
+          )
+          gradle.write_text(text, encoding='utf-8')
+
+          workflow = Path('.github/workflows/build-and-release.yml')
+          text = workflow.read_text(encoding='utf-8')
+          text = text.replace('LEGACY_ARTIFACT_VERSION: "1.0.0"', 'LEGACY_ARTIFACT_VERSION: "1.0.1"')
+          workflow.write_text(text, encoding='utf-8')
+
+          print(f'Updated {changed} Java source files for classic SlimefunItemStack compatibility')
+          PY
+
+      - name: Remove one-time migration workflow
+        run: git rm .github/workflows/legacy-api-migration.yml
+
+      - name: Commit migrated sources
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/main/java build.gradle.kts .github/workflows/build-and-release.yml
+          git commit -m "fix: restore Slimefun Legacy ItemStack API compatibility"
+          git push origin HEAD:master
