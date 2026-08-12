@@ -48,6 +48,7 @@ tasks.processResources {
 
 tasks.shadowJar {
     archiveClassifier.set("")
+    archiveFileName.set("SF_AlchimiaVitae.jar")
 }
 
 tasks.build {
