@@ -16,6 +16,9 @@ on:
 permissions:
   contents: write
 
+env:
+  LEGACY_ARTIFACT_VERSION: "1.0.0"
+
 jobs:
   build:
     name: Build & Release
@@ -42,13 +45,15 @@ jobs:
 
       - name: Verify final JAR
         run: |
-          test -s build/libs/SF_AlchimiaVitae.jar
-          jar tf build/libs/SF_AlchimiaVitae.jar | grep -Fq 'plugin.yml'
+          JAR="build/libs/SF_AlchimiaVitae_Legacy_v${LEGACY_ARTIFACT_VERSION}.jar"
+          test -s "$JAR"
+          jar tf "$JAR" | grep -Fq 'plugin.yml'
+          unzip -p "$JAR" plugin.yml | grep -Fq "version: ${LEGACY_ARTIFACT_VERSION}"
 
-      - name: Upload direct JAR build output
+      - name: Upload direct versioned Legacy JAR
         uses: actions/upload-artifact@v7
         with:
-          path: build/libs/SF_AlchimiaVitae.jar
+          path: build/libs/SF_AlchimiaVitae_Legacy_v${{ env.LEGACY_ARTIFACT_VERSION }}.jar
           archive: false
           if-no-files-found: error
           retention-days: 30
@@ -58,21 +63,17 @@ jobs:
         id: release_info
         run: |
           mkdir -p release_assets
-          JAR_FILE="build/libs/SF_AlchimiaVitae.jar"
-
-          VERSION="1.21.4"
-          NAME="SF_AlchimiaVitae"
+          JAR_FILE="build/libs/SF_AlchimiaVitae_Legacy_v${LEGACY_ARTIFACT_VERSION}.jar"
 
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             TAG="${GITHUB_REF#refs/tags/}"
-            TITLE="${NAME} ${TAG}"
+            TITLE="AlchimiaVitae Legacy ${TAG}"
           else
-            TAG="v${VERSION}-b${{ github.run_number }}"
-            TITLE="${NAME} v${VERSION} (Build #${{ github.run_number }})"
+            TAG="v${LEGACY_ARTIFACT_VERSION}-b${{ github.run_number }}"
+            TITLE="AlchimiaVitae Legacy v${LEGACY_ARTIFACT_VERSION} (Build #${{ github.run_number }})"
           fi
 
-          cp "$JAR_FILE" "release_assets/${NAME}-${TAG}.jar"
-          cp "$JAR_FILE" "release_assets/${NAME}.jar"
+          cp "$JAR_FILE" "release_assets/SF_AlchimiaVitae_Legacy_v${LEGACY_ARTIFACT_VERSION}.jar"
 
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "title=${TITLE}" >> $GITHUB_OUTPUT
@@ -83,7 +84,7 @@ jobs:
         with:
           tag_name: ${{ steps.release_info.outputs.tag }}
           name: ${{ steps.release_info.outputs.title }}
-          files: release_assets/*.jar
+          files: release_assets/SF_AlchimiaVitae_Legacy_v${{ env.LEGACY_ARTIFACT_VERSION }}.jar
           generate_release_notes: true
           draft: false
           prerelease: false
