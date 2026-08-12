@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -42,22 +43,18 @@ jobs:
           )
           gradle.write_text(text, encoding='utf-8')
 
-          workflow = Path('.github/workflows/build-and-release.yml')
-          text = workflow.read_text(encoding='utf-8')
-          text = text.replace('LEGACY_ARTIFACT_VERSION: "1.0.0"', 'LEGACY_ARTIFACT_VERSION: "1.0.1"')
-          workflow.write_text(text, encoding='utf-8')
-
           print(f'Updated {changed} Java source files for classic SlimefunItemStack compatibility')
           PY
-
-      - name: Remove one-time migration workflow
-        run: git rm .github/workflows/legacy-api-migration.yml
 
       - name: Commit migrated sources
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/main/java build.gradle.kts .github/workflows/build-and-release.yml
+          git add src/main/java build.gradle.kts
+          if git diff --cached --quiet; then
+            echo "No migration changes remain."
+            exit 0
+          fi
           git commit -m "fix: restore Slimefun Legacy ItemStack API compatibility"
           git push origin HEAD:master
