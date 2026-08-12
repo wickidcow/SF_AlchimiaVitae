@@ -1,59 +1,50 @@
+import org.gradle.api.attributes.java.TargetJvmVersion
+
 plugins {
-    `java-library`
-    id("com.gradleup.shadow") version "8.3.6"
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+    java
 }
 
 group = "me.apeiros"
-version = "1.21.4"
+version = "1.0.0"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://api.modrinth.com/maven")
-    maven("https://jitpack.io")
-    maven("https://repo.codemc.org/repository/maven-public")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("maven.modrinth:slimefuncore:PEuZoZh4")
-    compileOnly(fileTree("run/plugins") { include("*.jar") })
-    compileOnly(fileTree("libs") { include("*.jar") })
-
-    // JSR305
+    compileOnly("io.papermc.paper:paper-api:26.2.build.+") {
+        attributes {
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 25)
+        }
+    }
+    compileOnly("com.github.slimefun:Slimefun:Legacy-SNAPSHOT")
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
-tasks.withType<JavaCompile> {
+tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
     options.release.set(21)
 }
 
 tasks.processResources {
-    val props = mapOf(
-        "version" to project.version,
-        "project" to mapOf("version" to project.version)
-    )
-    inputs.properties(props)
+    val pluginVersion = project.version.toString()
+    inputs.property("version", pluginVersion)
     filesMatching("plugin.yml") {
-        expand(props)
+        expand(mapOf("version" to pluginVersion))
     }
 }
 
-tasks.shadowJar {
-    archiveClassifier.set("")
-}
-
-tasks.build {
-    dependsOn(tasks.shadowJar)
-}
-
-tasks.runServer {
-    minecraftVersion("1.21.4")
+tasks.jar {
+    archiveFileName.set("SF_AlchimiaVitae_Legacy_v${project.version}.jar")
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+    from("LICENSE") {
+        into("META-INF")
+    }
 }
