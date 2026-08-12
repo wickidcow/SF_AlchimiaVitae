@@ -7,21 +7,18 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-
 import me.apeiros.alchimiavitae.AlchimiaUtils;
 import me.apeiros.alchimiavitae.AlchimiaVitae;
 import me.apeiros.alchimiavitae.setup.AlchimiaItems;
+import me.apeiros.alchimiavitae.util.AlchimiaScheduler;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-/**
- * Divine Altar
- */
+/** Divine Altar. */
 public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
 
     public DivineAltar(ItemGroup ig) {
@@ -32,147 +29,99 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
         });
     }
 
-    // {{{ Set up effects
     @Override
     protected void newInstanceEffects(World w, Location l) {
-        // Play effects
         w.spawnParticle(Particle.REVERSE_PORTAL, l, 100, 0.5, 0.5, 0.5);
         w.playSound(l, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
     }
-    // }}}
 
-    // {{{ Default recipes
     @Override
     protected void addDefaultRecipes() {
-        // {{{ Prepare
-        // Get plugin instance and config
         AlchimiaVitae instance = AlchimiaVitae.i();
         Configuration cfg = instance.getConfig();
 
-        // Get config values
-        boolean reinforcedTransmutation       = cfg.getBoolean("options.transmutations.reinforced-transmutation");
-        boolean hardenedTransmutation         = cfg.getBoolean("options.transmutations.hardened-transmutation");
-        boolean steelTransmutation            = cfg.getBoolean("options.transmutations.steel-transmutation");
-        boolean damascusTransmutation         = cfg.getBoolean("options.transmutations.damascus-transmutation");
+        boolean reinforcedTransmutation = cfg.getBoolean("options.transmutations.reinforced-transmutation");
+        boolean hardenedTransmutation = cfg.getBoolean("options.transmutations.hardened-transmutation");
+        boolean steelTransmutation = cfg.getBoolean("options.transmutations.steel-transmutation");
+        boolean damascusTransmutation = cfg.getBoolean("options.transmutations.damascus-transmutation");
         boolean compressedCarbonTransmutation = cfg.getBoolean("options.transmutations.compressed-carbon-transmutation");
 
-        // Get ItemGroup and RecipeType
         ItemGroup ig = AlchimiaUtils.ItemGroups.ALTAR_RECIPES;
         RecipeType rt = AlchimiaUtils.RecipeTypes.DIVINE_ALTAR;
-        // }}}
 
-        // {{{ Reinforced Alloy Ingot
         if (reinforcedTransmutation) {
-            this.newRecipe(ig, rt,
-                // Out
-                new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 2),
-
-                // In
-                null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null
-            );
+            newRecipe(ig, rt,
+                    new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 2),
+                    null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null,
+                    AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
+                    null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null);
         }
-        // }}}
 
-        // {{{ Hardened Metal
         if (hardenedTransmutation) {
-            this.newRecipe(ig, rt,
-                new SlimefunItemStack(SlimefunItems.HARDENED_METAL_INGOT, 2),
-
-                null, SlimefunItems.STEEL_INGOT.item(), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.STEEL_INGOT.item(), null
-            );
+            newRecipe(ig, rt,
+                    new SlimefunItemStack(SlimefunItems.HARDENED_METAL_INGOT, 2),
+                    null, SlimefunItems.STEEL_INGOT.item(), null,
+                    AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
+                    null, SlimefunItems.STEEL_INGOT.item(), null);
         }
-        // }}}
 
-        // {{{ Steel Ingot
         if (steelTransmutation) {
-            this.newRecipe(ig, rt,
-                new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8),
-
-                null, new ItemStack(Material.IRON_BLOCK), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.CARBON.item(), null
-            );
+            newRecipe(ig, rt,
+                    new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8),
+                    null, new ItemStack(Material.IRON_BLOCK), null,
+                    AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
+                    null, SlimefunItems.CARBON.item(), null);
         }
-        // }}}
 
-        // {{{ Damascus Steel Ingot
         if (damascusTransmutation) {
-            this.newRecipe(ig, rt,
-                new SlimefunItemStack(SlimefunItems.DAMASCUS_STEEL_INGOT, 8),
-
-                null, new ItemStack(Material.IRON_BLOCK), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.COMPRESSED_CARBON.item(), null
-            );
+            newRecipe(ig, rt,
+                    new SlimefunItemStack(SlimefunItems.DAMASCUS_STEEL_INGOT, 8),
+                    null, new ItemStack(Material.IRON_BLOCK), null,
+                    AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
+                    null, SlimefunItems.COMPRESSED_CARBON.item(), null);
         }
-        // }}}
 
-        // {{{ Compressed Carbon
         if (compressedCarbonTransmutation) {
-            this.newRecipe(ig, rt,
-                SlimefunItems.COMPRESSED_CARBON,
-
-                new ItemStack(Material.COAL), new ItemStack(Material.COOKED_BEEF), new ItemStack(Material.COAL),
-                new ItemStack(Material.OAK_LEAVES), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.KELP),
-                new ItemStack(Material.COAL), new ItemStack(Material.ROTTEN_FLESH), new ItemStack(Material.COAL)
-            );
+            newRecipe(ig, rt,
+                    SlimefunItems.COMPRESSED_CARBON,
+                    new ItemStack(Material.COAL), new ItemStack(Material.COOKED_BEEF), new ItemStack(Material.COAL),
+                    new ItemStack(Material.OAK_LEAVES), new ItemStack(Material.COAL_BLOCK), new ItemStack(Material.KELP),
+                    new ItemStack(Material.COAL), new ItemStack(Material.ROTTEN_FLESH), new ItemStack(Material.COAL));
         }
-        // }}}
     }
-    // }}}
 
-    // {{{ Finish crafting
     @Override
     protected void finish(World w, Location l, BlockMenu menu, SlimefunItemStack item) {
-        // Schedule task
-        new BukkitRunnable() {
-            private int layer = 4;
+        Location anchor = l.clone();
 
-            @Override
-            public void run() {
-                if (layer == 4) {
-                    // Pre-craft
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
-                    w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
+        Runnable first = () -> {
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
+            w.playSound(anchor, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
+        };
 
-                    // Decrease layer
-                    layer--;
-                } else if (layer > 0) {
-                    // Pre-craft
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
-                    w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
-                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1);
+        Runnable middle = () -> {
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
+            w.playSound(anchor, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
+            w.spawnParticle(Particle.FLASH, anchor, 2, 0.1, 0.1, 0.1);
+        };
 
-                    // Decrease layer
-                    layer--;
-                } else {
-                    // Output the item
-                    ItemStack newItem = item.item().clone();
+        Runnable finish = () -> {
+            ItemStack newItem = item.item().clone();
+            Location effectLocation = anchor.clone().add(0, 0.5, 0);
 
-                    if (menu.fits(newItem, OUT_SLOTS)) {
-                        menu.pushItem(newItem, OUT_SLOTS);
-                    } else {
-                        // Drop if it doesn't fit
-                        w.dropItemNaturally(l.add(0, 0.5, 0), newItem);
-                    }
-
-                    // Post-craft
-                    w.strikeLightningEffect(l.add(0, 0.5, 0));
-                    w.playSound(l, Sound.ITEM_TRIDENT_THUNDER, 1, 1);
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
-                    w.spawnParticle(Particle.FLASH, l, 5, 0.1, 0.1, 0.1);
-                    w.spawnParticle(Particle.REVERSE_PORTAL, l, 300, 2, 2, 2);
-
-                    // Cancel runnable
-                    this.cancel();
-                }
+            if (menu.fits(newItem, OUT_SLOTS)) {
+                menu.pushItem(newItem, OUT_SLOTS);
+            } else {
+                w.dropItemNaturally(effectLocation, newItem);
             }
-        }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
-    }
-    // }}}
 
+            w.strikeLightningEffect(effectLocation);
+            w.playSound(anchor, Sound.ITEM_TRIDENT_THUNDER, 1, 1);
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
+            w.spawnParticle(Particle.FLASH, anchor, 5, 0.1, 0.1, 0.1);
+            w.spawnParticle(Particle.REVERSE_PORTAL, anchor, 300, 2, 2, 2);
+        };
+
+        AlchimiaScheduler.runPhases(anchor, 30L, first, middle, middle, middle, finish);
+    }
 }
