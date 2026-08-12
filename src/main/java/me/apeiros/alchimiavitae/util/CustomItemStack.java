@@ -12,7 +12,8 @@ import java.util.List;
 public class CustomItemStack extends ItemStack {
 
     public CustomItemStack(ItemStack item) {
-        super(item);
+        super(item.getType(), item.getAmount());
+        copyMeta(item);
     }
 
     public CustomItemStack(Material type) {
@@ -42,7 +43,7 @@ public class CustomItemStack extends ItemStack {
     }
 
     public CustomItemStack(ItemStack item, String name, String... lore) {
-        super(item);
+        this(item);
         ItemMeta meta = getItemMeta();
         if (meta != null) {
             if (name != null) {
@@ -60,16 +61,25 @@ public class CustomItemStack extends ItemStack {
     }
 
     public CustomItemStack(ItemStack item, int amount) {
-        super(item);
+        this(item);
         setAmount(amount);
     }
 
     public CustomItemStack(SlimefunItemStack item, int amount) {
-        super(item);
+        this((ItemStack) item);
         setAmount(amount);
     }
 
     public CustomItemStack(SlimefunItemStack item) {
-        super(item);
+        this((ItemStack) item);
+    }
+
+    private void copyMeta(ItemStack item) {
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null) {
+                setItemMeta(meta);
+            }
+        }
     }
 }
