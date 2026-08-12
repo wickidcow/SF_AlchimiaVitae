@@ -6,97 +6,71 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-
 import me.apeiros.alchimiavitae.AlchimiaUtils;
-import me.apeiros.alchimiavitae.AlchimiaVitae;
 import me.apeiros.alchimiavitae.setup.AlchimiaItems;
+import me.apeiros.alchimiavitae.util.AlchimiaScheduler;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-/**
- * Cosmic Cauldron
- */
+/** Cosmic Cauldron. */
 public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
 
     public CosmicCauldron(ItemGroup ig, DivineAltar divineAltar) {
-        super(ig, AlchimiaItems.COSMIC_CAULDRON, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[]{
+        super(ig, AlchimiaItems.COSMIC_CAULDRON, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[] {
                 AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.AUTO_BREWER.item(), AlchimiaItems.EXP_CRYSTAL.item(),
                 AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.DIVINE_ALTAR.item(), AlchimiaItems.ILLUMIUM.item(),
                 SlimefunItems.BLISTERING_INGOT_3.item(), SlimefunItems.FLUID_PUMP.item(), SlimefunItems.BLISTERING_INGOT_3.item()
         });
 
-        // Add recipe to Divine Altar
-        divineAltar.newRecipe(AlchimiaItems.COSMIC_CAULDRON, this.getRecipe());
+        divineAltar.newRecipe(AlchimiaItems.COSMIC_CAULDRON, getRecipe());
     }
 
-    // {{{ Set up effects
     @Override
     protected void newInstanceEffects(World w, Location l) {
-        // Play effects
         w.spawnParticle(Particle.TOTEM_OF_UNDYING, l, 100, 3, 3, 3);
         w.playSound(l, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
     }
-    // }}}
 
-    // {{{ Potion recipes are registered in the potion classes
     @Override
     protected void addDefaultRecipes() {}
-    // }}}
 
-    // {{{ Finish crafting
     @Override
     protected void finish(World w, Location l, BlockMenu menu, SlimefunItemStack item) {
-        // Schedule task
-        new BukkitRunnable() {
-            private int layer = 4;
+        Location anchor = l.clone();
 
-            @Override
-            public void run() {
-                if (layer == 4) {
-                    // Pre-craft
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
-                    w.spawnParticle(Particle.WITCH, l, 2, 1, 1, 1);
+        Runnable first = () -> {
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
+            w.spawnParticle(Particle.WITCH, anchor, 2, 1, 1, 1);
+        };
 
-                    // Decrease layer
-                    layer--;
-                } else if (layer > 0) {
-                    // Pre-craft
-                    w.playSound(l, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
-                    w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1, 1);
-                    w.spawnParticle(Particle.ENCHANTED_HIT, l, 200, 1, 1, 1);
+        Runnable middle = () -> {
+            w.playSound(anchor, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+            w.playSound(anchor, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1, 1);
+            w.spawnParticle(Particle.ENCHANTED_HIT, anchor, 200, 1, 1, 1);
+        };
 
-                    // Decrease layer
-                    layer--;
-                } else {
-                    // Output the item
-                    ItemStack newItem = item.item().clone();
+        Runnable finish = () -> {
+            ItemStack newItem = item.item().clone();
+            Location dropLocation = anchor.clone().add(0, 0.5, 0);
 
-                    if (menu.fits(newItem, OUT_SLOTS)) {
-                        menu.pushItem(newItem, OUT_SLOTS);
-                    } else {
-                        // Drop if it doesn't fit
-                        w.dropItemNaturally(l.add(0, 0.5, 0), newItem);
-                    }
-
-                    // Post-craft
-                    w.playSound(l, Sound.ITEM_BOTTLE_FILL, 1, 1);
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 0.5F, 1);
-                    w.playSound(l, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
-                    w.playSound(l, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
-                    w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 2, 1);
-                    w.spawnParticle(Particle.FLASH, l, 1, 0.1, 0.1, 0.1);
-                    w.spawnParticle(Particle.END_ROD, l, 200, 0.1, 4, 0.1);
-
-                    // Cancel runnable
-                    this.cancel();
-                }
+            if (menu.fits(newItem, OUT_SLOTS)) {
+                menu.pushItem(newItem, OUT_SLOTS);
+            } else {
+                w.dropItemNaturally(dropLocation, newItem);
             }
-        }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
-    }
-    // }}}
 
+            w.playSound(anchor, Sound.ITEM_BOTTLE_FILL, 1, 1);
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 0.5F, 1);
+            w.playSound(anchor, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
+            w.playSound(anchor, Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+            w.playSound(anchor, Sound.ITEM_LODESTONE_COMPASS_LOCK, 2, 1);
+            w.spawnParticle(Particle.FLASH, anchor, 1, 0.1, 0.1, 0.1);
+            w.spawnParticle(Particle.END_ROD, anchor, 200, 0.1, 4, 0.1);
+        };
+
+        AlchimiaScheduler.runPhases(anchor, 30L, first, middle, middle, middle, finish);
+    }
 }
