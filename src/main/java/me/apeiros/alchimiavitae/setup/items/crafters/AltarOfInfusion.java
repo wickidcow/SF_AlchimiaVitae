@@ -40,9 +40,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
 
     public AltarOfInfusion(ItemGroup ig, DivineAltar divineAltar) {
         super(ig, AlchimiaItems.ALTAR_OF_INFUSION, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[]{
-                AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.WITHER_PROOF_GLASS.item(), AlchimiaItems.EXP_CRYSTAL.item(),
-                SlimefunItems.REINFORCED_PLATE.item(), new ItemStack(Material.BEACON), SlimefunItems.REINFORCED_PLATE.item(),
-                SlimefunItems.BLISTERING_INGOT_3.item(), AlchimiaItems.DIVINE_ALTAR.item(), SlimefunItems.BLISTERING_INGOT_3.item()
+                AlchimiaItems.EXP_CRYSTAL, SlimefunItems.WITHER_PROOF_GLASS, AlchimiaItems.EXP_CRYSTAL,
+                SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BEACON), SlimefunItems.REINFORCED_PLATE,
+                SlimefunItems.BLISTERING_INGOT_3, AlchimiaItems.DIVINE_ALTAR, SlimefunItems.BLISTERING_INGOT_3
         });
 
         // Add recipe to Divine Altar
@@ -97,9 +97,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
 
                 // In
                 new ItemStack[] {
-                        new ItemStack(Material.TNT), SlimefunItems.EXPLOSIVE_PICKAXE.item(), new ItemStack(Material.STONECUTTER),
-                        AlchimiaItems.DARKSTEEL.item(), validMelee, SlimefunItems.WITHER_PROOF_OBSIDIAN.item(),
-                        new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), new ItemStack(Material.TNT)
+                        new ItemStack(Material.TNT), SlimefunItems.EXPLOSIVE_PICKAXE, new ItemStack(Material.STONECUTTER),
+                        AlchimiaItems.DARKSTEEL, validMelee, SlimefunItems.WITHER_PROOF_OBSIDIAN,
+                        new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.WITHER_PROOF_OBSIDIAN, new ItemStack(Material.TNT)
                 }
             );
         }
@@ -109,9 +109,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.PHANTOM_CRITS,
 
                 new ItemStack[] {
-                    new ItemStack(Material.PHANTOM_MEMBRANE), SlimefunItems.MAGICAL_GLASS.item(), new ItemStack(Material.PHANTOM_MEMBRANE),
-                    AlchimiaItems.DARKSTEEL.item(), validMelee, SlimefunItems.HARDENED_GLASS.item(),
-                    new ItemStack(Material.PHANTOM_MEMBRANE), AlchimiaItems.CONDENSED_SOUL.item(), new ItemStack(Material.PHANTOM_MEMBRANE)
+                    new ItemStack(Material.PHANTOM_MEMBRANE), SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.PHANTOM_MEMBRANE),
+                    AlchimiaItems.DARKSTEEL, validMelee, SlimefunItems.HARDENED_GLASS,
+                    new ItemStack(Material.PHANTOM_MEMBRANE), AlchimiaItems.CONDENSED_SOUL, new ItemStack(Material.PHANTOM_MEMBRANE)
                 }
             );
         }
@@ -123,9 +123,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.FORCEFUL,
 
                 new ItemStack[] {
-                    SlimefunItems.ELECTRO_MAGNET.item(), new ItemStack(Material.PISTON), SlimefunItems.STAFF_WIND.item(),
-                    SlimefunItems.INFUSED_MAGNET.item(), validRanged, SlimefunItems.STEEL_THRUSTER.item(),
-                    SlimefunItems.ELECTRO_MAGNET.item(), new ItemStack(Material.PISTON), SlimefunItems.TALISMAN_TRAVELLER.item()
+                    SlimefunItems.ELECTRO_MAGNET, new ItemStack(Material.PISTON), SlimefunItems.STAFF_WIND,
+                    SlimefunItems.INFUSED_MAGNET, validRanged, SlimefunItems.STEEL_THRUSTER,
+                    SlimefunItems.ELECTRO_MAGNET, new ItemStack(Material.PISTON), SlimefunItems.TALISMAN_TRAVELLER
                 }
             );
         }
@@ -135,9 +135,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.HEALING,
 
                 new ItemStack[] {
-                    AlchimiaItems.BENEVOLENT_BREW.item(), SlimefunItems.MEDICINE.item(), SlimefunItems.VITAMINS.item(),
-                    AlchimiaItems.ILLUMIUM.item(), validRanged, new ItemStack(Material.TOTEM_OF_UNDYING),
-                    new ItemStack(Material.ENCHANTED_GOLDEN_APPLE), SlimefunItems.MEDICINE.item(), SlimefunItems.MAGIC_SUGAR.item()
+                    AlchimiaItems.BENEVOLENT_BREW, SlimefunItems.MEDICINE, SlimefunItems.VITAMINS,
+                    AlchimiaItems.ILLUMIUM, validRanged, new ItemStack(Material.TOTEM_OF_UNDYING),
+                    new ItemStack(Material.ENCHANTED_GOLDEN_APPLE), SlimefunItems.MEDICINE, SlimefunItems.MAGIC_SUGAR
                 }
             );
         }
@@ -147,9 +147,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.TRUE_AIM,
 
                 new ItemStack[] {
-                    SlimefunItems.SYNTHETIC_SHULKER_SHELL.item(), SlimefunItems.INFUSED_MAGNET.item(), SlimefunItems.STAFF_WIND.item(),
-                    AlchimiaItems.DARKSTEEL.item(), validRanged, AlchimiaItems.EXP_CRYSTAL.item(),
-                    new ItemStack(Material.SHULKER_BOX), SlimefunItems.INFUSED_ELYTRA.item(), SlimefunItems.STEEL_THRUSTER.item()
+                    SlimefunItems.SYNTHETIC_SHULKER_SHELL, SlimefunItems.INFUSED_MAGNET, SlimefunItems.STAFF_WIND,
+                    AlchimiaItems.DARKSTEEL, validRanged, AlchimiaItems.EXP_CRYSTAL,
+                    new ItemStack(Material.SHULKER_BOX), SlimefunItems.INFUSED_ELYTRA, SlimefunItems.STEEL_THRUSTER
                 }
             );
         }
@@ -159,9 +159,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.VOLATILITY,
 
                 new ItemStack[] {
-                    new ItemStack(Material.BLAZE_ROD), SlimefunItems.STAFF_FIRE.item(), SlimefunItems.TALISMAN_FIRE.item(),
-                    AlchimiaItems.DARKSTEEL.item(), validRanged, SlimefunItems.LAVA_GENERATOR_2.item(),
-                    new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND.item(), SlimefunItems.LAVA_CRYSTAL.item()
+                    new ItemStack(Material.BLAZE_ROD), SlimefunItems.STAFF_FIRE, SlimefunItems.TALISMAN_FIRE,
+                    AlchimiaItems.DARKSTEEL, validRanged, SlimefunItems.LAVA_GENERATOR_2,
+                    new ItemStack(Material.TNT), SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.LAVA_CRYSTAL
                 }
             );
         }
@@ -173,9 +173,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.TOTEM_BATTERY,
 
                 new ItemStack[] {
-                    SlimefunItems.NECROTIC_SKULL.item(), AlchimiaItems.CONDENSED_SOUL.item(), AlchimiaItems.BENEVOLENT_BREW.item(),
-                    AlchimiaItems.ILLUMIUM.item(), validChestplate, AlchimiaItems.EXP_CRYSTAL.item(),
-                    SlimefunItems.ESSENCE_OF_AFTERLIFE.item(), SlimefunItems.ENERGIZED_CAPACITOR.item(), SlimefunItems.ESSENCE_OF_AFTERLIFE.item()
+                    SlimefunItems.NECROTIC_SKULL, AlchimiaItems.CONDENSED_SOUL, AlchimiaItems.BENEVOLENT_BREW,
+                    AlchimiaItems.ILLUMIUM, validChestplate, AlchimiaItems.EXP_CRYSTAL,
+                    SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENERGIZED_CAPACITOR, SlimefunItems.ESSENCE_OF_AFTERLIFE
                 }
             );
         }
@@ -187,9 +187,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.KNOCKBACK,
 
                 new ItemStack[] {
-                    SlimefunItems.TALISMAN_WHIRLWIND.item(), new ItemStack(Material.STICKY_PISTON), AlchimiaItems.EXP_CRYSTAL.item(),
-                    SlimefunItems.GRANDPAS_WALKING_STICK.item(), validFishingRod, new ItemStack(Material.STICKY_PISTON),
-                    new ItemStack(Material.SLIME_BALL), SlimefunItems.GRANDPAS_WALKING_STICK.item(), SlimefunItems.TALISMAN_WHIRLWIND.item()
+                    SlimefunItems.TALISMAN_WHIRLWIND, new ItemStack(Material.STICKY_PISTON), AlchimiaItems.EXP_CRYSTAL,
+                    SlimefunItems.GRANDPAS_WALKING_STICK, validFishingRod, new ItemStack(Material.STICKY_PISTON),
+                    new ItemStack(Material.SLIME_BALL), SlimefunItems.GRANDPAS_WALKING_STICK, SlimefunItems.TALISMAN_WHIRLWIND
                 }
             );
         }
@@ -201,9 +201,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                 Infusion.AUTO_REPLANT,
 
                 new ItemStack[] {
-                    new ItemStack(Material.COMPOSTER), AlchimiaItems.LIGHT_ESSENCE.item(), new ItemStack(Material.WATER_BUCKET),
-                    AlchimiaItems.ILLUMIUM.item(), validHoe, SlimefunItems.FLUID_PUMP.item(),
-                    new ItemStack(Material.BONE_BLOCK), AlchimiaItems.LIGHT_MAGIC_PLANT.item(), new ItemStack(Material.GRINDSTONE)
+                    new ItemStack(Material.COMPOSTER), AlchimiaItems.LIGHT_ESSENCE, new ItemStack(Material.WATER_BUCKET),
+                    AlchimiaItems.ILLUMIUM, validHoe, SlimefunItems.FLUID_PUMP,
+                    new ItemStack(Material.BONE_BLOCK), AlchimiaItems.LIGHT_MAGIC_PLANT, new ItemStack(Material.GRINDSTONE)
                 }
             );
         }

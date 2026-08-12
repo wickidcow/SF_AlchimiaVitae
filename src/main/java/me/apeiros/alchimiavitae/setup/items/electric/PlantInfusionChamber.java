@@ -17,9 +17,9 @@ public class PlantInfusionChamber extends AContainer implements RecipeDisplayIte
 
     public PlantInfusionChamber(ItemGroup ig) {
         super(ig, AlchimiaItems.PLANT_INFUSION_CHAMBER, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
-                SlimefunItems.ELECTRIC_PRESS.item(), SlimefunItems.ELECTRIC_MOTOR.item(), SlimefunItems.ELECTRIC_PRESS.item(),
-                SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.HEATED_PRESSURE_CHAMBER_2.item(), SlimefunItems.HARDENED_GLASS.item(),
-                SlimefunItems.HEATING_COIL.item(), SlimefunItems.ANCIENT_ALTAR.item(), SlimefunItems.HEATING_COIL.item()
+                SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRIC_PRESS,
+                SlimefunItems.HARDENED_GLASS, SlimefunItems.HEATED_PRESSURE_CHAMBER_2, SlimefunItems.HARDENED_GLASS,
+                SlimefunItems.HEATING_COIL, SlimefunItems.ANCIENT_ALTAR, SlimefunItems.HEATING_COIL
         });
 
         this.setProcessingSpeed(1).setCapacity(128).setEnergyConsumption(32);
@@ -30,22 +30,22 @@ public class PlantInfusionChamber extends AContainer implements RecipeDisplayIte
         this.registerRecipe(60,
             new ItemStack[] {
                 new ItemStack(Material.OAK_SAPLING),
-                SlimefunItems.MAGIC_LUMP_3.item()
+                SlimefunItems.MAGIC_LUMP_3
             },
 
             new ItemStack[] {
-                AlchimiaItems.LIGHT_MAGIC_PLANT.item()
+                AlchimiaItems.LIGHT_MAGIC_PLANT
             }
         );
 
         this.registerRecipe(60,
             new ItemStack[] {
                 new ItemStack(Material.OAK_SAPLING),
-                AlchimiaItems.CONDENSED_SOUL.item()
+                AlchimiaItems.CONDENSED_SOUL
             },
 
             new ItemStack[] {
-                AlchimiaItems.DARK_MAGIC_PLANT.item()
+                AlchimiaItems.DARK_MAGIC_PLANT
             }
         );
     }

@@ -76,26 +76,26 @@ public class Setup {
 
         // Plants
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.LIGHT_MAGIC_PLANT, AlchimiaUtils.RecipeTypes.PLANT_INFUSION_CHAMBER, new ItemStack[] {
-                new ItemStack(Material.OAK_SAPLING), SlimefunItems.MAGIC_LUMP_3.item(), null,
+                new ItemStack(Material.OAK_SAPLING), SlimefunItems.MAGIC_LUMP_3, null,
                 null, null, null,
                 null, null, null
         }).register(instance);
 
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.DARK_MAGIC_PLANT, AlchimiaUtils.RecipeTypes.PLANT_INFUSION_CHAMBER, new ItemStack[] {
-                new ItemStack(Material.OAK_SAPLING), AlchimiaItems.CONDENSED_SOUL.item(), null,
+                new ItemStack(Material.OAK_SAPLING), AlchimiaItems.CONDENSED_SOUL, null,
                 null, null, null,
                 null, null, null
         }).register(instance);
 
         // Essence
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.LIGHT_ESSENCE, RecipeType.GRIND_STONE, new ItemStack[] {
-                AlchimiaItems.LIGHT_MAGIC_PLANT.item(), null, null,
+                AlchimiaItems.LIGHT_MAGIC_PLANT, null, null,
                 null, null, null,
                 null, null, null
         }, new CustomItemStack(AlchimiaItems.LIGHT_ESSENCE, 4)).register(instance);
 
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.DARK_ESSENCE, RecipeType.GRIND_STONE, new ItemStack[] {
-                AlchimiaItems.DARK_MAGIC_PLANT.item(), null, null,
+                AlchimiaItems.DARK_MAGIC_PLANT, null, null,
                 null, null, null,
                 null, null, null
         }, new CustomItemStack(AlchimiaItems.DARK_ESSENCE, 4)).register(instance);
@@ -114,16 +114,16 @@ public class Setup {
         // {{{ Ingots
         // Illumium
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.ILLUMIUM, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
-                SlimefunItems.MAGIC_LUMP_1.item(), AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.MAGIC_LUMP_1.item(),
-                AlchimiaItems.LIGHT_ESSENCE.item(), SlimefunItems.STEEL_INGOT.item(), AlchimiaItems.LIGHT_ESSENCE.item(),
-                SlimefunItems.MAGIC_LUMP_1.item(), AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.MAGIC_LUMP_1.item()
+                SlimefunItems.MAGIC_LUMP_1, AlchimiaItems.EXP_CRYSTAL, SlimefunItems.MAGIC_LUMP_1,
+                AlchimiaItems.LIGHT_ESSENCE, SlimefunItems.STEEL_INGOT, AlchimiaItems.LIGHT_ESSENCE,
+                SlimefunItems.MAGIC_LUMP_1, AlchimiaItems.EXP_CRYSTAL, SlimefunItems.MAGIC_LUMP_1
         }, new CustomItemStack(AlchimiaItems.ILLUMIUM, 4)).register(instance);
 
         // Darksteel
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.DARKSTEEL, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
-                SlimefunItems.ENDER_LUMP_1.item(), AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.ENDER_LUMP_1.item(),
-                AlchimiaItems.DARK_ESSENCE.item(), SlimefunItems.STEEL_INGOT.item(), AlchimiaItems.DARK_ESSENCE.item(),
-                SlimefunItems.ENDER_LUMP_1.item(), AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.ENDER_LUMP_1.item()
+                SlimefunItems.ENDER_LUMP_1, AlchimiaItems.EXP_CRYSTAL, SlimefunItems.ENDER_LUMP_1,
+                AlchimiaItems.DARK_ESSENCE, SlimefunItems.STEEL_INGOT, AlchimiaItems.DARK_ESSENCE,
+                SlimefunItems.ENDER_LUMP_1, AlchimiaItems.EXP_CRYSTAL, SlimefunItems.ENDER_LUMP_1
         }, new CustomItemStack(AlchimiaItems.DARKSTEEL, 4)).register(instance);
         // }}}
 
@@ -134,7 +134,7 @@ public class Setup {
         new MoltenMysteryMetal(AlchimiaUtils.ItemGroups.GENERAL, divineAltar).register(instance);
 
         new SlimefunItem(AlchimiaUtils.ItemGroups.GENERAL, AlchimiaItems.MYSTERY_METAL, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
-                AlchimiaItems.MOLTEN_MYSTERY_METAL.item(), null, null,
+                AlchimiaItems.MOLTEN_MYSTERY_METAL, null, null,
                 null, null, null,
                 null, null, null
         }, new CustomItemStack(AlchimiaItems.MYSTERY_METAL, 16)).register(instance);
@@ -172,62 +172,62 @@ public class Setup {
     private static void setupResearches(AlchimiaVitae instance) {
         new Research(AlchimiaUtils.createKey("soul"), 131072,
                 "Manipulation of life force", 15)
-                .addItems(AlchimiaItems.CONDENSED_SOUL.item(), AlchimiaItems.SOUL_COLLECTOR.item())
+                .addItems(AlchimiaItems.CONDENSED_SOUL, AlchimiaItems.SOUL_COLLECTOR)
                 .register();
 
         new Research(AlchimiaUtils.createKey("magic_plants"), 131073,
                 "Powerful plants", 20)
-                .addItems(AlchimiaItems.PLANT_INFUSION_CHAMBER.item(), AlchimiaItems.LIGHT_MAGIC_PLANT.item(), AlchimiaItems.DARK_MAGIC_PLANT.item())
+                .addItems(AlchimiaItems.PLANT_INFUSION_CHAMBER, AlchimiaItems.LIGHT_MAGIC_PLANT, AlchimiaItems.DARK_MAGIC_PLANT)
                 .register();
 
         new Research(AlchimiaUtils.createKey("magic_essence"), 131074,
                 "Powerful powder", 10)
-                .addItems(AlchimiaItems.LIGHT_ESSENCE.item(), AlchimiaItems.DARK_ESSENCE.item())
+                .addItems(AlchimiaItems.LIGHT_ESSENCE, AlchimiaItems.DARK_ESSENCE)
                 .register();
 
         new Research(AlchimiaUtils.createKey("exp_crystals"), 131075,
                 "Pure crystalline energy", 12)
-                .addItems(AlchimiaItems.EXP_CRYSTALLIZER.item(), AlchimiaItems.EXP_CRYSTAL.item())
+                .addItems(AlchimiaItems.EXP_CRYSTALLIZER, AlchimiaItems.EXP_CRYSTAL)
                 .register();
 
         new Research(AlchimiaUtils.createKey("magic_steel"), 131076,
                 "Mystical metals", 16)
-                .addItems(AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.ILLUMIUM.item())
+                .addItems(AlchimiaItems.DARKSTEEL, AlchimiaItems.ILLUMIUM)
                 .register();
 
         new Research(AlchimiaUtils.createKey("divine_altar"), 131077,
                 "The Ancient Altar's lost cousin", 36)
-                .addItems(AlchimiaItems.DIVINE_ALTAR.item())
+                .addItems(AlchimiaItems.DIVINE_ALTAR)
                 .register();
 
         new Research(AlchimiaUtils.createKey("metal_amalgamation"), 131078,
                 "Amalgam", 19)
-                .addItems(AlchimiaItems.MOLTEN_MYSTERY_METAL.item(), AlchimiaItems.MYSTERY_METAL.item())
+                .addItems(AlchimiaItems.MOLTEN_MYSTERY_METAL, AlchimiaItems.MYSTERY_METAL)
                 .register();
 
         new Research(AlchimiaUtils.createKey("cosmic_cauldron"), 131079,
                 "Advanced brewery", 36)
-                .addItems(AlchimiaItems.COSMIC_CAULDRON.item())
+                .addItems(AlchimiaItems.COSMIC_CAULDRON)
                 .register();
 
         new Research(AlchimiaUtils.createKey("potion_of_osmosis"), 131080,
                 "Absorbing and reflecting", 30)
-                .addItems(AlchimiaItems.POTION_OF_OSMOSIS.item())
+                .addItems(AlchimiaItems.POTION_OF_OSMOSIS)
                 .register();
 
         new Research(AlchimiaUtils.createKey("benevolent_brew"), 131081,
                 "A blessing from Gaia herself", 20)
-                .addItems(AlchimiaItems.BENEVOLENT_BREW.item())
+                .addItems(AlchimiaItems.BENEVOLENT_BREW)
                 .register();
 
         new Research(AlchimiaUtils.createKey("malevolent_concoction"), 131082,
                 "A demonic liquid", 20)
-                .addItems(AlchimiaItems.MALEVOLENT_CONCOCTION.item())
+                .addItems(AlchimiaItems.MALEVOLENT_CONCOCTION)
                 .register();
 
         new Research(AlchimiaUtils.createKey("altar_of_infusion"), 131083,
                 "Infusion", 36)
-                .addItems(AlchimiaItems.ALTAR_OF_INFUSION.item())
+                .addItems(AlchimiaItems.ALTAR_OF_INFUSION)
                 .register();
     }
     // }}}

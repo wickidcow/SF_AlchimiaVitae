@@ -26,9 +26,9 @@ public class PotionOfOsmosis extends AbstractListenerPotion {
 
     public PotionOfOsmosis(ItemGroup ig, CosmicCauldron cauldron) {
         super(ig, AlchimiaItems.POTION_OF_OSMOSIS, AlchimiaUtils.RecipeTypes.COSMIC_CAULDRON, new ItemStack[] {
-                AlchimiaItems.EXP_CRYSTAL.item(), new ItemStack(Material.NETHERITE_SCRAP), AlchimiaItems.EXP_CRYSTAL.item(),
-                AlchimiaItems.DARK_ESSENCE.item(), new ItemStack(Material.HONEY_BOTTLE), AlchimiaItems.LIGHT_ESSENCE.item(),
-                AlchimiaItems.DARKSTEEL.item(), new ItemStack(Material.DRAGON_BREATH), AlchimiaItems.ILLUMIUM.item()
+                AlchimiaItems.EXP_CRYSTAL, new ItemStack(Material.NETHERITE_SCRAP), AlchimiaItems.EXP_CRYSTAL,
+                AlchimiaItems.DARK_ESSENCE, new ItemStack(Material.HONEY_BOTTLE), AlchimiaItems.LIGHT_ESSENCE,
+                AlchimiaItems.DARKSTEEL, new ItemStack(Material.DRAGON_BREATH), AlchimiaItems.ILLUMIUM
         }, cauldron);
     }
 
@@ -68,7 +68,7 @@ public class PotionOfOsmosis extends AbstractListenerPotion {
                 Color.FUCHSIA, effects, false,
                 "&aCreated from a",
                 AlchimiaUtils.format("<gradient:#6274e7:#8752a3>Potion of Osmosis</gradient>"),
-                "", AlchimiaUtils.itemType("Potion")).item();
+                "", AlchimiaUtils.itemType("Potion"));
 
         // {{{ Finish
         new BukkitRunnable() {

@@ -23,9 +23,9 @@ public class SoulCollector extends SlimefunItem {
 
     public SoulCollector(ItemGroup ig) {
         super(ig, AlchimiaItems.SOUL_COLLECTOR, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
-                SlimefunItems.EARTH_RUNE.item(), SlimefunItems.SYNTHETIC_DIAMOND.item(), SlimefunItems.AIR_RUNE.item(),
-                SlimefunItems.WATER_RUNE.item(), SlimefunItems.NECROTIC_SKULL.item(), SlimefunItems.FIRE_RUNE.item(),
-                SlimefunItems.ESSENCE_OF_AFTERLIFE.item(), new ItemStack(Material.TOTEM_OF_UNDYING), SlimefunItems.ESSENCE_OF_AFTERLIFE.item()
+                SlimefunItems.EARTH_RUNE, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.AIR_RUNE,
+                SlimefunItems.WATER_RUNE, SlimefunItems.NECROTIC_SKULL, SlimefunItems.FIRE_RUNE,
+                SlimefunItems.ESSENCE_OF_AFTERLIFE, new ItemStack(Material.TOTEM_OF_UNDYING), SlimefunItems.ESSENCE_OF_AFTERLIFE
         });
     }
 
@@ -68,7 +68,7 @@ public class SoulCollector extends SlimefunItem {
 
             // Add souls to drops
             for (int i = 0; i < souls; i++) {
-                e.getDrops().add(AlchimiaItems.CONDENSED_SOUL.item().clone());
+                e.getDrops().add(AlchimiaItems.CONDENSED_SOUL.clone());
             }
 
             // Multiple dropped experience

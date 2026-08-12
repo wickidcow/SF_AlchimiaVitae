@@ -116,7 +116,7 @@ abstract class AbstractCrafter<T> extends SlimefunItem {
 
         // Modify the ID for double registration
         String id = "AV_" + stack.getItemId();
-        SlimefunItemStack registeredStack = new SlimefunItemStack(id, stack.item());
+        SlimefunItemStack registeredStack = new SlimefunItemStack(id, stack);
         registeredStack = new SlimefunItemStack(registeredStack, 1);
 
         // Register item

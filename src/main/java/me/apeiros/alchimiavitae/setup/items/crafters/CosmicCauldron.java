@@ -24,9 +24,9 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
 
     public CosmicCauldron(ItemGroup ig, DivineAltar divineAltar) {
         super(ig, AlchimiaItems.COSMIC_CAULDRON, AlchimiaUtils.RecipeTypes.DIVINE_ALTAR, new ItemStack[]{
-                AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.AUTO_BREWER.item(), AlchimiaItems.EXP_CRYSTAL.item(),
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.DIVINE_ALTAR.item(), AlchimiaItems.ILLUMIUM.item(),
-                SlimefunItems.BLISTERING_INGOT_3.item(), SlimefunItems.FLUID_PUMP.item(), SlimefunItems.BLISTERING_INGOT_3.item()
+                AlchimiaItems.EXP_CRYSTAL, SlimefunItems.AUTO_BREWER, AlchimiaItems.EXP_CRYSTAL,
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.DIVINE_ALTAR, AlchimiaItems.ILLUMIUM,
+                SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.FLUID_PUMP, SlimefunItems.BLISTERING_INGOT_3
         });
 
         // Add recipe to Divine Altar
@@ -73,7 +73,7 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
                     layer--;
                 } else {
                     // Output the item
-                    ItemStack newItem = item.item().clone();
+                    ItemStack newItem = item.clone();
 
                     if (menu.fits(newItem, OUT_SLOTS)) {
                         menu.pushItem(newItem, OUT_SLOTS);

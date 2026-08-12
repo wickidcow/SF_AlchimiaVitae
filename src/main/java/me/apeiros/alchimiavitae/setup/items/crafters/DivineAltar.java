@@ -26,9 +26,9 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
 
     public DivineAltar(ItemGroup ig) {
         super(ig, AlchimiaItems.DIVINE_ALTAR, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
-                AlchimiaItems.EXP_CRYSTAL.item(), SlimefunItems.ELECTRO_MAGNET.item(), AlchimiaItems.EXP_CRYSTAL.item(),
-                SlimefunItems.BLISTERING_INGOT_3.item(), SlimefunItems.ANCIENT_ALTAR.item(), SlimefunItems.BLISTERING_INGOT_3.item(),
-                SlimefunItems.ANCIENT_PEDESTAL.item(), SlimefunItems.HEATED_PRESSURE_CHAMBER.item(), SlimefunItems.ANCIENT_PEDESTAL.item()
+                AlchimiaItems.EXP_CRYSTAL, SlimefunItems.ELECTRO_MAGNET, AlchimiaItems.EXP_CRYSTAL,
+                SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ANCIENT_ALTAR, SlimefunItems.BLISTERING_INGOT_3,
+                SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.HEATED_PRESSURE_CHAMBER, SlimefunItems.ANCIENT_PEDESTAL
         });
     }
 
@@ -68,9 +68,9 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                 new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 2),
 
                 // In
-                null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.DAMASCUS_STEEL_INGOT.item(), null
+                null, SlimefunItems.DAMASCUS_STEEL_INGOT, null,
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.MYSTERY_METAL, AlchimiaItems.ILLUMIUM,
+                null, SlimefunItems.DAMASCUS_STEEL_INGOT, null
             );
         }
         // }}}
@@ -80,9 +80,9 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
             this.newRecipe(ig, rt,
                 new SlimefunItemStack(SlimefunItems.HARDENED_METAL_INGOT, 2),
 
-                null, SlimefunItems.STEEL_INGOT.item(), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.STEEL_INGOT.item(), null
+                null, SlimefunItems.STEEL_INGOT, null,
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.MYSTERY_METAL, AlchimiaItems.ILLUMIUM,
+                null, SlimefunItems.STEEL_INGOT, null
             );
         }
         // }}}
@@ -93,8 +93,8 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                 new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8),
 
                 null, new ItemStack(Material.IRON_BLOCK), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.CARBON.item(), null
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.MYSTERY_METAL, AlchimiaItems.ILLUMIUM,
+                null, SlimefunItems.CARBON, null
             );
         }
         // }}}
@@ -105,8 +105,8 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                 new SlimefunItemStack(SlimefunItems.DAMASCUS_STEEL_INGOT, 8),
 
                 null, new ItemStack(Material.IRON_BLOCK), null,
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.MYSTERY_METAL.item(), AlchimiaItems.ILLUMIUM.item(),
-                null, SlimefunItems.COMPRESSED_CARBON.item(), null
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.MYSTERY_METAL, AlchimiaItems.ILLUMIUM,
+                null, SlimefunItems.COMPRESSED_CARBON, null
             );
         }
         // }}}
@@ -151,7 +151,7 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                     layer--;
                 } else {
                     // Output the item
-                    ItemStack newItem = item.item().clone();
+                    ItemStack newItem = item.clone();
 
                     if (menu.fits(newItem, OUT_SLOTS)) {
                         menu.pushItem(newItem, OUT_SLOTS);

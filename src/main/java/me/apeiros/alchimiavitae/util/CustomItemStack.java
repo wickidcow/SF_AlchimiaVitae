@@ -65,11 +65,11 @@ public class CustomItemStack extends ItemStack {
     }
 
     public CustomItemStack(SlimefunItemStack item, int amount) {
-        super(item.item());
+        super(item);
         setAmount(amount);
     }
 
     public CustomItemStack(SlimefunItemStack item) {
-        super(item.item());
+        super(item);
     }
 }

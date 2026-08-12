@@ -25,8 +25,8 @@ public class DyeListener implements Listener {
         PlayerInventory inventory = e.getPlayer().getInventory();
 
         // If player isn't holding a condensed soul in either hand, exit early
-        boolean inMain = SlimefunUtils.isItemSimilar(inventory.getItemInMainHand(), AlchimiaItems.CONDENSED_SOUL.item(), true);
-        boolean inOff = SlimefunUtils.isItemSimilar(inventory.getItemInOffHand(), AlchimiaItems.CONDENSED_SOUL.item(), true);
+        boolean inMain = SlimefunUtils.isItemSimilar(inventory.getItemInMainHand(), AlchimiaItems.CONDENSED_SOUL, true);
+        boolean inOff = SlimefunUtils.isItemSimilar(inventory.getItemInOffHand(), AlchimiaItems.CONDENSED_SOUL, true);
 
         if (!inMain && !inOff)
             return;

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.apeiros"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("maven.modrinth:slimefuncore:PEuZoZh4")
+    compileOnly("com.github.SlimefunGuguProject:Slimefun4:2025.1")
     compileOnly(fileTree("run/plugins") { include("*.jar") })
     compileOnly(fileTree("libs") { include("*.jar") })
 

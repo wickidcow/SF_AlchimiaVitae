@@ -19,9 +19,9 @@ public class EXPCrystallizer extends AContainer implements RecipeDisplayItem {
 
     public EXPCrystallizer(ItemGroup ig) {
         super(ig, AlchimiaItems.EXP_CRYSTALLIZER, RecipeType.ANCIENT_ALTAR, new ItemStack[]{
-                SlimefunItems.TALISMAN_WISE.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.TALISMAN_WISE.item(),
-                SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.EXP_COLLECTOR.item(), SlimefunItems.HARDENED_GLASS.item(),
-                SlimefunItems.HEATING_COIL.item(), SlimefunItems.ANCIENT_ALTAR.item(), SlimefunItems.HEATING_COIL.item()
+                SlimefunItems.TALISMAN_WISE, SlimefunItems.MAGICAL_GLASS, SlimefunItems.TALISMAN_WISE,
+                SlimefunItems.HARDENED_GLASS, SlimefunItems.EXP_COLLECTOR, SlimefunItems.HARDENED_GLASS,
+                SlimefunItems.HEATING_COIL, SlimefunItems.ANCIENT_ALTAR, SlimefunItems.HEATING_COIL
         });
 
         this.setProcessingSpeed(1).setCapacity(64).setEnergyConsumption(16);
@@ -35,7 +35,7 @@ public class EXPCrystallizer extends AContainer implements RecipeDisplayItem {
             },
 
             new ItemStack[] {
-                new SlimefunItemStack(AlchimiaItems.EXP_CRYSTAL, 1).item(),
+                new SlimefunItemStack(AlchimiaItems.EXP_CRYSTAL, 1),
                 new CustomItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 2)
             }
         );

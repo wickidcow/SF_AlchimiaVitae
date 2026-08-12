@@ -22,9 +22,9 @@ public class MalevolentConcoction extends AbstractListenerPotion {
 
     public MalevolentConcoction(ItemGroup ig, CosmicCauldron cauldron) {
         super(ig, AlchimiaItems.MALEVOLENT_CONCOCTION, AlchimiaUtils.RecipeTypes.COSMIC_CAULDRON, new ItemStack[] {
-                AlchimiaItems.EXP_CRYSTAL.item(), new ItemStack(Material.FERMENTED_SPIDER_EYE), new ItemStack(Material.BONE_BLOCK),
-                AlchimiaItems.DARK_ESSENCE.item(), new ItemStack(Material.DRAGON_BREATH), new ItemStack(Material.LAVA_BUCKET),
-                AlchimiaItems.DARKSTEEL.item(), AlchimiaItems.CONDENSED_SOUL.item(), new ItemStack(Material.ROTTEN_FLESH)
+                AlchimiaItems.EXP_CRYSTAL, new ItemStack(Material.FERMENTED_SPIDER_EYE), new ItemStack(Material.BONE_BLOCK),
+                AlchimiaItems.DARK_ESSENCE, new ItemStack(Material.DRAGON_BREATH), new ItemStack(Material.LAVA_BUCKET),
+                AlchimiaItems.DARKSTEEL, AlchimiaItems.CONDENSED_SOUL, new ItemStack(Material.ROTTEN_FLESH)
         }, cauldron);
     }
 
