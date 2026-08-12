@@ -40,22 +40,29 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
+      - name: Verify final JAR
+        run: |
+          test -s build/libs/SF_AlchimiaVitae.jar
+          jar tf build/libs/SF_AlchimiaVitae.jar | grep -Fq 'plugin.yml'
+
+      - name: Upload direct JAR build output
+        uses: actions/upload-artifact@v7
         with:
-          name: AlchimiaVitae-Jar
-          path: build/libs/AlchimiaVitae*.jar
+          path: build/libs/SF_AlchimiaVitae.jar
+          archive: false
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Prepare Release Assets & Tags
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         id: release_info
         run: |
           mkdir -p release_assets
-          JAR_FILE=$(ls build/libs/AlchimiaVitae*.jar | grep -v 'plain' | head -n 1)
-          
+          JAR_FILE="build/libs/SF_AlchimiaVitae.jar"
+
           VERSION="1.21.4"
-          NAME="AlchimiaVitae"
-          
+          NAME="SF_AlchimiaVitae"
+
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             TAG="${GITHUB_REF#refs/tags/}"
             TITLE="${NAME} ${TAG}"
@@ -63,10 +70,10 @@ jobs:
             TAG="v${VERSION}-b${{ github.run_number }}"
             TITLE="${NAME} v${VERSION} (Build #${{ github.run_number }})"
           fi
-          
+
           cp "$JAR_FILE" "release_assets/${NAME}-${TAG}.jar"
           cp "$JAR_FILE" "release_assets/${NAME}.jar"
-          
+
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
           echo "title=${TITLE}" >> $GITHUB_OUTPUT
 
