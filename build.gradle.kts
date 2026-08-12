@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.apeiros"
-version = "1.21.4"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -48,7 +48,7 @@ tasks.processResources {
 
 tasks.shadowJar {
     archiveClassifier.set("")
-    archiveFileName.set("SF_AlchimiaVitae.jar")
+    archiveFileName.set("SF_AlchimiaVitae_Legacy_v${project.version}.jar")
 }
 
 tasks.build {
