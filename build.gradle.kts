@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.apeiros"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -15,13 +15,21 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-public")
 }
 
+val legacyJar = file("legacy-deps/Slimefun-Legacy4.1.46.jar")
+
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("com.github.SlimefunGuguProject:Slimefun4:2025.1")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.111-stable")
+
+    // CI and release builds use the exact Slimefun Legacy release JAR.
+    // Keep the Gugu coordinate only as a local-development fallback when that JAR is absent.
+    if (legacyJar.exists()) {
+        compileOnly(files(legacyJar))
+    } else {
+        compileOnly("com.github.SlimefunGuguProject:Slimefun4:2025.1")
+    }
+
     compileOnly(fileTree("run/plugins") { include("*.jar") })
     compileOnly(fileTree("libs") { include("*.jar") })
-
-    // JSR305
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
@@ -48,7 +56,7 @@ tasks.processResources {
 
 tasks.shadowJar {
     archiveClassifier.set("")
-    archiveFileName.set("SF_AlchimiaVitae_Legacy_v${project.version}.jar")
+    archiveFileName.set("SF_AlchimiaVitae${project.version}.jar")
 }
 
 tasks.build {
@@ -56,5 +64,5 @@ tasks.build {
 }
 
 tasks.runServer {
-    minecraftVersion("1.21.4")
+    minecraftVersion("1.21.11")
 }
