@@ -12,41 +12,95 @@ permissions:
   contents: write
 
 env:
-  LEGACY_ARTIFACT_VERSION: "1.0.2"
-  OUTPUT_NAME: "SF_AlchimiaVitae1.0.2.jar"
+  LEGACY_ARTIFACT_VERSION: "1.0.3"
+  OUTPUT_NAME: "SF_AlchimiaVitae1.0.3.jar"
+  SLIMEFUN_LEGACY_VERSION: "4.1.46"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
       - name: Set up JDK 25
         uses: actions/setup-java@v5
         with:
           java-version: '25'
           distribution: temurin
           cache: gradle
-      - name: Build with Gradle
+
+      - name: Download Slimefun Legacy 4.1.46
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p legacy-deps
+          gh release download "v${SLIMEFUN_LEGACY_VERSION}" \
+            --repo wickidcow/Slimefun-Legacy \
+            --pattern "Slimefun-Legacy${SLIMEFUN_LEGACY_VERSION}.jar" \
+            --dir legacy-deps
+          test -s "legacy-deps/Slimefun-Legacy${SLIMEFUN_LEGACY_VERSION}.jar"
+
+      - name: Build directly against Slimefun Legacy with Gradle
         run: chmod +x gradlew && ./gradlew clean build --no-daemon
-      - name: Stage versioned JAR
+
+      - name: Install Slimefun Legacy into local Maven repo
+        run: >-
+          mvn -B install:install-file
+          -Dfile=legacy-deps/Slimefun-Legacy${SLIMEFUN_LEGACY_VERSION}.jar
+          -DgroupId=com.github.wickidcow
+          -DartifactId=Slimefun-Legacy
+          -Dversion=${SLIMEFUN_LEGACY_VERSION}
+          -Dpackaging=jar
+          -DgeneratePom=true
+
+      - name: Maven compile gate - Paper 1.21.11 + Slimefun Legacy
+        run: >-
+          mvn -B -Dmaven.test.skip=true
+          -Dpaper.version=1.21.11-R0.1-SNAPSHOT
+          -Dslimefun.groupId=com.github.wickidcow
+          -Dslimefun.artifactId=Slimefun-Legacy
+          -Dslimefun.version=${SLIMEFUN_LEGACY_VERSION}
+          clean package --file pom.xml
+
+      - name: Maven compile gate - Paper 26.2 + Slimefun Legacy
+        run: >-
+          mvn -B -Dmaven.test.skip=true
+          -Dpaper.version=26.2.build.111-stable
+          -Dslimefun.groupId=com.github.wickidcow
+          -Dslimefun.artifactId=Slimefun-Legacy
+          -Dslimefun.version=${SLIMEFUN_LEGACY_VERSION}
+          clean package --file pom.xml
+
+      - name: Stage and validate versioned JAR
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
-          SOURCE="build/libs/SF_AlchimiaVitae_Legacy_v${LEGACY_ARTIFACT_VERSION}.jar"
+          SOURCE="build/libs/${OUTPUT_NAME}"
           test -s "$SOURCE"
           cp "$SOURCE" "dist/${OUTPUT_NAME}"
-          jar tf "dist/${OUTPUT_NAME}" | grep -Fq 'plugin.yml'
-          sha256sum "dist/${OUTPUT_NAME}"
+          JAR="dist/${OUTPUT_NAME}"
+          jar tf "$JAR" | grep -Fq 'plugin.yml'
+          unzip -p "$JAR" plugin.yml | grep -Fq 'version: 1.0.3'
+          javap -verbose -classpath "$JAR" me.apeiros.alchimiavitae.AlchimiaVitae | grep -Fq 'major version: 65'
+          if jar tf "$JAR" | grep -q '^io/github/thebusybiscuit/slimefun4/'; then
+            echo 'Slimefun core classes must not be shaded into AlchimiaVitae.' >&2
+            exit 1
+          fi
+          sha256sum "$JAR"
+
       - name: Upload raw JAR artifact
         uses: actions/upload-artifact@v7
         with:
           path: dist/${{ env.OUTPUT_NAME }}
           archive: false
           if-no-files-found: error
+
       - name: Publish raw JAR release asset
         if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/') || github.ref_name == github.event.repository.default_branch
         env:
@@ -56,4 +110,9 @@ jobs:
           set -euo pipefail
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then TAG="$GITHUB_REF_NAME"; else TAG="v${LEGACY_ARTIFACT_VERSION}"; fi
           JAR="dist/${OUTPUT_NAME}"
-          if gh release view "$TAG" >/dev/null 2>&1; then gh release upload "$TAG" "$JAR" --clobber; else gh release create "$TAG" "$JAR" --target "$GITHUB_SHA" --generate-notes --title "SF_AlchimiaVitae $TAG"; fi
+          NOTES="Slimefun Legacy compatibility release. Built directly against Slimefun Legacy ${SLIMEFUN_LEGACY_VERSION}, validated with both Gradle and Maven on Paper 1.21.11 / 26.2, and emitted as Java 21 bytecode without bundling Slimefun core classes."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$JAR" --clobber
+          else
+            gh release create "$TAG" "$JAR" --target "$GITHUB_SHA" --notes "$NOTES" --title "SF_AlchimiaVitae $TAG"
+          fi
