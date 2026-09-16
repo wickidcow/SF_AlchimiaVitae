@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.apeiros"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -18,18 +18,12 @@ repositories {
 val legacyJar = file("legacy-deps/Slimefun-Legacy4.1.46.jar")
 
 dependencies {
-    // Keep the release build Java 21 compatible. Paper 26.2 is verified separately
-    // by the Maven compatibility gate running on JDK 25.
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-
-    // CI and release builds use the exact Slimefun Legacy release JAR.
-    // Keep the Gugu coordinate only as a local-development fallback when that JAR is absent.
     if (legacyJar.exists()) {
         compileOnly(files(legacyJar))
     } else {
         compileOnly("com.github.SlimefunGuguProject:Slimefun4:2025.1")
     }
-
     compileOnly(fileTree("run/plugins") { include("*.jar") })
     compileOnly(fileTree("libs") { include("*.jar") })
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
