@@ -68,11 +68,7 @@ public class CustomItemStack extends ItemStack {
                 meta.displayName(legacyComponent(name));
             }
             if (lore != null && lore.length > 0) {
-                List<String> list = new ArrayList<>();
-                for (String line : lore) {
-                    list.add(ChatColor.translateAlternateColorCodes('&', line));
-                }
-                meta.setLore(list);
+                meta.lore(legacyLore(lore));
             }
             setItemMeta(meta);
         }
