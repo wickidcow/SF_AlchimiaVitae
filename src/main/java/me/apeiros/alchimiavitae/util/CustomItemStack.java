@@ -1,15 +1,37 @@
 package me.apeiros.alchimiavitae.util;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 public class CustomItemStack extends ItemStack {
+
+    private static final LegacyComponentSerializer AMPERSAND = LegacyComponentSerializer.builder()
+            .character('&')
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
+
+    private static final LegacyComponentSerializer SECTION = LegacyComponentSerializer.builder()
+            .character('§')
+            .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .build();
+
+    private static Component legacyComponent(String text) {
+        return text.indexOf('§') >= 0 ? SECTION.deserialize(text) : AMPERSAND.deserialize(text);
+    }
+
+    private static List<Component> legacyLore(String... lore) {
+        return Arrays.stream(lore).map(CustomItemStack::legacyComponent).toList();
+    }
 
     public CustomItemStack(ItemStack item) {
         super(item.getType(), item.getAmount());
@@ -29,14 +51,10 @@ public class CustomItemStack extends ItemStack {
         ItemMeta meta = getItemMeta();
         if (meta != null) {
             if (name != null) {
-                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+                meta.displayName(legacyComponent(name));
             }
             if (lore != null && lore.length > 0) {
-                List<String> list = new ArrayList<>();
-                for (String line : lore) {
-                    list.add(ChatColor.translateAlternateColorCodes('&', line));
-                }
-                meta.setLore(list);
+                meta.lore(legacyLore(lore));
             }
             setItemMeta(meta);
         }
@@ -47,7 +65,7 @@ public class CustomItemStack extends ItemStack {
         ItemMeta meta = getItemMeta();
         if (meta != null) {
             if (name != null) {
-                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+                meta.displayName(legacyComponent(name));
             }
             if (lore != null && lore.length > 0) {
                 List<String> list = new ArrayList<>();
