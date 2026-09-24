@@ -213,7 +213,7 @@ public class TotemListener implements Listener {
         );
 
         // Effects
-        p.playEffect(EntityEffect.TOTEM_RESURRECT);
+        p.playEffect(EntityEffect.PROTECTED_FROM_DEATH);
         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 0.5F, 1F);
     }
     // }}}
