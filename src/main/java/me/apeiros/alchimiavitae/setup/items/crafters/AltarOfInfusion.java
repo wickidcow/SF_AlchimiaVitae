@@ -3,6 +3,8 @@ package me.apeiros.alchimiavitae.setup.items.crafters;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
+
 import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
@@ -306,16 +308,16 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
         infusion.apply(pdc);
 
         // Add lore
-        List<String> lore = meta.getLore() != null ? meta.getLore() : new ArrayList<>();
+        List<Component> lore = meta.lore() != null ? new ArrayList<>(meta.lore()) : new ArrayList<>();
 
-        lore.add("");
-        lore.add(AlchimiaUtils.format("<gray>Infusion:"));
+        lore.add(Component.empty());
+        lore.add(AlchimiaUtils.legacyComponent(AlchimiaUtils.format("<gray>Infusion:")));
 
         // Infusion name to lore
-        lore.add(AlchimiaUtils.format("<dark_gray>› " + infusion.lore()));
+        lore.add(AlchimiaUtils.legacyComponent(AlchimiaUtils.format("<dark_gray>› " + infusion.lore())));
 
         // Set lore and meta
-        meta.setLore(lore);
+        meta.lore(lore);
         tool.setItemMeta(meta);
         // }}}
 

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
@@ -126,6 +127,10 @@ public final class AlchimiaUtils {
     public static String itemType(String type) {
         return LCS.serialize(MM.deserialize("<blue>" + type + "<blue> (<italic>AlchimiaVitae<blue>)"));
     }
+
+    public static Component legacyComponent(String text) {
+        return LCS.deserialize(text);
+    }
     // }}}
 
     // {{{ Methods for making potions
@@ -141,7 +146,7 @@ public final class AlchimiaUtils {
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
 
         if (potionMeta != null) {
-            potionMeta.setDisplayName(name);
+            potionMeta.displayName(legacyComponent(name));
             potionMeta.setColor(color);
 
             for (PotionEffect e : effects) {

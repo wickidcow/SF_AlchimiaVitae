@@ -31,7 +31,6 @@ import me.apeiros.alchimiavitae.util.CustomItemStack;
 import me.apeiros.alchimiavitae.AlchimiaUtils;
 import me.apeiros.alchimiavitae.AlchimiaVitae;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -218,9 +217,18 @@ abstract class AbstractCrafter<T> extends SlimefunItem {
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
-                BlockMenu menu = BlockStorage.getInventory(e.getBlock());
-                if (menu != null) {
-                    onBreak(e, menu);
+                var controller = Slimefun.getDatabaseManager().getBlockDataController();
+                var blockData = controller.getBlockData(e.getBlock().getLocation());
+
+                if (blockData != null) {
+                    if (!blockData.isDataLoaded()) {
+                        controller.loadBlockData(blockData);
+                    }
+
+                    BlockMenu menu = blockData.getBlockMenu();
+                    if (menu != null) {
+                        onBreak(e, menu);
+                    }
                 }
             }
         });
