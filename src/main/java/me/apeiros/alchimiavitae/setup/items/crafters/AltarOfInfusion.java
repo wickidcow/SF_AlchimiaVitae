@@ -376,6 +376,9 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     // Decrease layer
                     layer--;
                 } else {
+                    // Cancel before delivering output: a failed visual effect must never rerun completion.
+                    this.cancel();
+
                     // Output the item
                     if (menu.fits(tool, OUT_SLOTS)) {
                         menu.pushItem(tool, OUT_SLOTS);
@@ -393,8 +396,6 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     w.spawnParticle(Particle.END_ROD, l, 5, 0, 8, 0);
                     w.spawnParticle(Particle.PORTAL, l, 300, 2, 2, 2);
 
-                    // Cancel runnable
-                    this.cancel();
                 }
             }
         }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
