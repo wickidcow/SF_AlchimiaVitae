@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -347,7 +348,7 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     // Pre-craft
                     w.playSound(l, Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
                     w.playSound(l, Sound.BLOCK_BEACON_POWER_SELECT, 1.5F, 1);
-                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1);
+                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1, Color.WHITE);
 
                     // Decrease layer
                     layer--;
@@ -359,7 +360,7 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     w.playSound(l, Sound.ITEM_TOTEM_USE, 0.1F, 1);
                     w.playSound(l, Sound.BLOCK_BEACON_POWER_SELECT, 0.3F, 1);
                     w.playSound(l, Sound.BLOCK_LODESTONE_PLACE, 1.5F, 1);
-                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1);
+                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1, Color.WHITE);
 
                     // Decrease layer
                     layer--;
@@ -370,11 +371,14 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
                     w.playSound(l, Sound.BLOCK_BEACON_POWER_SELECT, 0.3F, 1);
                     w.playSound(l, Sound.ITEM_TOTEM_USE, 0.3F, 1);
-                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1);
+                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1, Color.WHITE);
 
                     // Decrease layer
                     layer--;
                 } else {
+                    // Cancel before delivering output: a failed visual effect must never rerun completion.
+                    this.cancel();
+
                     // Output the item
                     if (menu.fits(tool, OUT_SLOTS)) {
                         menu.pushItem(tool, OUT_SLOTS);
@@ -392,8 +396,6 @@ public class AltarOfInfusion extends AbstractCrafter<Infusion> {
                     w.spawnParticle(Particle.END_ROD, l, 5, 0, 8, 0);
                     w.spawnParticle(Particle.PORTAL, l, 300, 2, 2, 2);
 
-                    // Cancel runnable
-                    this.cancel();
                 }
             }
         }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
