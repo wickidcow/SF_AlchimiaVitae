@@ -73,6 +73,9 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
                     // Decrease layer
                     layer--;
                 } else {
+                    // Cancel before delivering output: a failed visual effect must never rerun completion.
+                    this.cancel();
+
                     // Output the item
                     ItemStack newItem = item.clone();
 
@@ -92,8 +95,6 @@ public class CosmicCauldron extends AbstractCrafter<SlimefunItemStack> {
                     w.spawnParticle(Particle.FLASH, l, 1, 0.1, 0.1, 0.1, Color.WHITE);
                     w.spawnParticle(Particle.END_ROD, l, 200, 0.1, 4, 0.1);
 
-                    // Cancel runnable
-                    this.cancel();
                 }
             }
         }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
