@@ -1,5 +1,6 @@
 package me.apeiros.alchimiavitae.setup.items.crafters;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -145,7 +146,7 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                     // Pre-craft
                     w.playSound(l, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
                     w.playSound(l, Sound.ITEM_LODESTONE_COMPASS_LOCK, 1.5F, 1);
-                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1);
+                    w.spawnParticle(Particle.FLASH, l, 2, 0.1, 0.1, 0.1, Color.WHITE);
 
                     // Decrease layer
                     layer--;
@@ -164,7 +165,7 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                     w.strikeLightningEffect(l.add(0, 0.5, 0));
                     w.playSound(l, Sound.ITEM_TRIDENT_THUNDER, 1, 1);
                     w.playSound(l, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1, 1);
-                    w.spawnParticle(Particle.FLASH, l, 5, 0.1, 0.1, 0.1);
+                    w.spawnParticle(Particle.FLASH, l, 5, 0.1, 0.1, 0.1, Color.WHITE);
                     w.spawnParticle(Particle.REVERSE_PORTAL, l, 300, 2, 2, 2);
 
                     // Cancel runnable
