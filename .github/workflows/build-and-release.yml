@@ -42,6 +42,9 @@ jobs:
           gh release download "v${SLIMEFUN_LEGACY_VERSION}" --repo wickidcow/Slimefun-Legacy --pattern "Slimefun-Legacy${SLIMEFUN_LEGACY_VERSION}.jar" --dir legacy-deps
           test -s "legacy-deps/Slimefun-Legacy${SLIMEFUN_LEGACY_VERSION}.jar"
 
+      - name: Guard FLASH particle data and one-shot crafting output
+        run: python3 -m unittest discover -s scripts -p 'test_*.py' -v
+
       - name: Build Java 21 release baseline with Gradle
         run: chmod +x gradlew && ./gradlew clean build --no-daemon
 
