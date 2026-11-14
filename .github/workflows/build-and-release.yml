@@ -73,10 +73,10 @@ jobs:
           -Dslimefun.version=${SLIMEFUN_LEGACY_VERSION}
           clean package --file pom.xml
 
-      - name: Maven compile gate - Paper 26.3 alpha
+      - name: Maven compile gate - Paper 26.3 stable
         run: >-
           mvn -B -Dmaven.test.skip=true
-          -Dpaper.version=26.3-rc-3.build.1-alpha
+          -Dpaper.version=26.3.build.249-stable
           -Dslimefun.groupId=com.github.wickidcow
           -Dslimefun.artifactId=Slimefun-Legacy
           -Dslimefun.version=${SLIMEFUN_LEGACY_VERSION}
