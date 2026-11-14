@@ -151,6 +151,9 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                     // Decrease layer
                     layer--;
                 } else {
+                    // Cancel before delivering output: a failed visual effect must never rerun completion.
+                    this.cancel();
+
                     // Output the item
                     ItemStack newItem = item.clone();
 
@@ -168,8 +171,6 @@ public class DivineAltar extends AbstractCrafter<SlimefunItemStack> {
                     w.spawnParticle(Particle.FLASH, l, 5, 0.1, 0.1, 0.1, Color.WHITE);
                     w.spawnParticle(Particle.REVERSE_PORTAL, l, 300, 2, 2, 2);
 
-                    // Cancel runnable
-                    this.cancel();
                 }
             }
         }.runTaskTimer(AlchimiaVitae.i(), 0, 30);
