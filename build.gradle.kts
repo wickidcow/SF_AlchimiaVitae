@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.apeiros"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     mavenCentral()
@@ -15,7 +15,7 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-public")
 }
 
-val legacyJar = file("legacy-deps/Slimefun-Legacy4.1.46.jar")
+val legacyJar = file("legacy-deps/Slimefun-Legacy4.1.80.jar")
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
