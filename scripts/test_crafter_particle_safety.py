@@ -32,5 +32,27 @@ class CrafterParticleSafetyTest(unittest.TestCase):
                 self.assertLess(finish.index("this.cancel();"), finish.index("// Output the item"))
 
 
+class ReleaseSourceSafetyTest(unittest.TestCase):
+    def test_tag_publication_refuses_unmerged_source_and_existing_release(self):
+        workflow = (ROOT / ".github/workflows/build-and-release.yml").read_text(encoding="utf-8")
+        release = workflow.split("name: Publish only a new immutable tagged release", 1)[1]
+        required = (
+            "if: startsWith(github.ref, 'refs/tags/v')",
+            'test "${TAG}" = "v${LEGACY_ARTIFACT_VERSION}"',
+            'git fetch --no-tags origin "+refs/heads/master:refs/remotes/origin/master"',
+            'MASTER_SHA="$(git rev-parse refs/remotes/origin/master)"',
+            'CHECKOUT_SHA="$(git rev-parse HEAD)"',
+            'test "$CHECKOUT_SHA" = "$MASTER_SHA" || {',
+            'if gh release view "${TAG}"',
+            'gh release create "${TAG}" "${JAR}"',
+        )
+        for clause in required:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, release)
+        self.assertLess(release.index("CHECKOUT_SHA="), release.index("gh release create"))
+        self.assertLess(release.index("if gh release view"), release.index("gh release create"))
+        self.assertNotIn("--clobber", release)
+
+
 if __name__ == "__main__":
     unittest.main()
