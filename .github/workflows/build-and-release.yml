@@ -124,6 +124,15 @@ jobs:
           set -euo pipefail
           TAG="${GITHUB_REF_NAME}"
           test "${TAG}" = "v${LEGACY_ARTIFACT_VERSION}"
+          # The tagged source must be the verified, merged master HEAD. A tag
+          # pushed from an unmerged candidate branch must never publish a JAR.
+          git fetch --no-tags origin "+refs/heads/master:refs/remotes/origin/master"
+          MASTER_SHA="$(git rev-parse refs/remotes/origin/master)"
+          CHECKOUT_SHA="$(git rev-parse HEAD)"
+          test "$CHECKOUT_SHA" = "$MASTER_SHA" || {
+            echo "Refusing release: tag source is not current master HEAD" >&2
+            exit 1
+          }
           JAR="dist/${OUTPUT_NAME}"
           test -s "${JAR}"
           # Never --clobber a previous release asset, even on a rerun.
