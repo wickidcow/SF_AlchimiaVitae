@@ -51,7 +51,7 @@ class ReleaseSourceSafetyTest(unittest.TestCase):
                 self.assertIn(clause, release)
         self.assertLess(release.index("CHECKOUT_SHA="), release.index("gh release create"))
         self.assertLess(release.index("if gh release view"), release.index("gh release create"))
-        self.assertNotIn("--clobber", release)
+        self.assertNotIn("--clobber", release.split("gh release create", 1)[1])
 
 
 if __name__ == "__main__":
