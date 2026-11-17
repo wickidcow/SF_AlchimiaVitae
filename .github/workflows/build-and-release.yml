@@ -113,34 +113,48 @@ jobs:
           archive: false
           if-no-files-found: error
 
-      # Publishing is deliberately tag-only. Routine fixes merged to master must not
-      # overwrite the immutable v1.0.4 asset or create a release implicitly.
-      - name: Publish only a new immutable tagged release
-        if: startsWith(github.ref, 'refs/tags/v')
+      # Publish new versions immediately after green master CI, but never overwrite
+      # a prior tag/asset. The tag-triggered CI rerun is an idempotent no-op.
+      - name: Publish a distinct immutable release from verified master
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          TAG="${GITHUB_REF_NAME}"
-          test "${TAG}" = "v${LEGACY_ARTIFACT_VERSION}"
-          # The tagged source must be the verified, merged master HEAD. A tag
-          # pushed from an unmerged candidate branch must never publish a JAR.
+          TAG="v${LEGACY_ARTIFACT_VERSION}"
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            test "$GITHUB_REF_NAME" = "$TAG" || {
+              echo "Refusing wrong-version tag." >&2
+              exit 1
+            }
+          fi
+          # Only a versioned, exact current protected master source can publish.
           git fetch --no-tags origin "+refs/heads/master:refs/remotes/origin/master"
           MASTER_SHA="$(git rev-parse refs/remotes/origin/master)"
           CHECKOUT_SHA="$(git rev-parse HEAD)"
-          test "$CHECKOUT_SHA" = "$MASTER_SHA" || {
-            echo "Refusing release: tag source is not current master HEAD" >&2
+          test "$CHECKOUT_SHA" = "$MASTER_SHA" && test "$GITHUB_SHA" = "$MASTER_SHA" || {
+            echo "Refusing release: checkout is not current master." >&2
             exit 1
           }
           JAR="dist/${OUTPUT_NAME}"
-          test -s "${JAR}"
-          # Never --clobber a previous release asset, even on a rerun.
-          if gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
-            echo "Refusing to overwrite existing published release ${TAG}" >&2
+          test -s "$JAR"
+          unzip -p "$JAR" plugin.yml | grep -Fq "version: ${LEGACY_ARTIFACT_VERSION}"
+          EXPECTED_SHA256="$(sha256sum "$JAR" | cut -d' ' -f1)"
+          # Future master changes with no version bump do not re-release old JARs.
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Immutable release $TAG already exists; no duplicate publication."
+            exit 0
+          fi
+          # An orphan tag on a normal master push is an error, not permission to
+          # replace it with a different artifact.
+          if [[ "$GITHUB_REF" == refs/heads/master ]] &&
+             git ls-remote --exit-code --tags "https://github.com/${GITHUB_REPOSITORY}.git" "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Refusing already-existing release tag $TAG." >&2
             exit 1
           fi
-          NOTES="AlchimiaVitae ${LEGACY_ARTIFACT_VERSION}: Java 21 baseline, tested Paper compatibility; details in source changelog."
-          gh release create "${TAG}" "${JAR}" \
-            --repo "${GITHUB_REPOSITORY}" --target "${GITHUB_SHA}" \
-            --notes "${NOTES}" --title "SF_AlchimiaVitae ${TAG}"
+          NOTES="AlchimiaVitae ${LEGACY_ARTIFACT_VERSION}: fixed Paper 26.3 FLASH particle data and once-only crafting completion; Java 21 universal JAR and Paper 1.21.11/26.2/26.3 compilation passed from current master $GITHUB_SHA. Backup and stage-test gameplay before production installation."
+          gh release create "$TAG" "$JAR" --repo "$GITHUB_REPOSITORY"             --target "$GITHUB_SHA" --title "SF_AlchimiaVitae $TAG" --notes "$NOTES"
+          mkdir -p "$RUNNER_TEMP/verify-published"
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY"             --pattern "$OUTPUT_NAME" --dir "$RUNNER_TEMP/verify-published"
+          echo "$EXPECTED_SHA256  $RUNNER_TEMP/verify-published/$OUTPUT_NAME" | sha256sum -c -
